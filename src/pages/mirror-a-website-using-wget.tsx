@@ -1,11 +1,11 @@
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { a11yDark as codeStyle } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { gradientDark as codeStyle } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 export default function Article() {
   return (
     <>
       <main className="max-w-screen-xl mx-auto  py-9">
-        <div className="[&>p]:max-w-screen-md [&>.code]:max-w-screen-md space-y-2">
+        <div className="max-w-screen-md [&>.code]:max-w-screen-md space-y-2">
           <span className="text-sm text-github-white-comment"> 2023-01-13</span>
           <h1 className=" text-3xl text-github-white-link pb-2 font-semibold">
             Mirror a website using wget
@@ -58,15 +58,15 @@ export default function Article() {
             {`su \napt-get update \napt-get install wget \nwget --version`}
           </SyntaxHighlighter>
           <p>
-            We used "su" command to become a superuser (root) and installed the
-            library.
+            We executed the 'su' command to gain superuser privileges (root) and
+            installed the library.
           </p>{' '}
           <h3 className="text-lg font-semibold text-github-white-link !mt-8">
             # Download entire website
           </h3>
           <p>We're ready to mirror the website. It's a very long command.</p>
           <SyntaxHighlighter
-            language="javascript"
+            language="bash"
             style={codeStyle}
             className="code "
             wrapLines={true}
