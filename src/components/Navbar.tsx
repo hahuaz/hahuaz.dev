@@ -1,10 +1,8 @@
-import React from 'react';
-
 import { GithubSvg } from '../assets';
 export function Navbar() {
   return (
-    <div className="bg-github-gray text-github-white">
-      <div className="max-w-screen-md mx-auto px-3 py-3">
+    <div className="bg-github-gray text-github-white-link">
+      <div className="max-w-screen-xl mx-auto px-3 py-3">
         <div className="flex justify-between items-center">
           <div className="">
             <span className="font-semibold text-lg">&gt;</span>{' '}

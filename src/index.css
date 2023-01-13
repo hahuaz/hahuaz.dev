@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  background-color: #010409;
+  color: #c9d1d9;
+}
+
 .cursor-animation {
   display: inline-block;
   width: 5px;

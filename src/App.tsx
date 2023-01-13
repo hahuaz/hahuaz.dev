@@ -1,11 +1,11 @@
 import { Navbar } from './components';
-import { RouterProvider } from './providers';
+import Routes from './Routes';
 
 function App() {
   return (
     <>
       <Navbar></Navbar>
-      <RouterProvider></RouterProvider>
+      <Routes></Routes>
     </>
   );
 }

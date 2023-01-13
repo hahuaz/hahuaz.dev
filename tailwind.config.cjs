@@ -7,7 +7,11 @@ module.exports = {
         github: {
           black: '#010409',
           gray: '#161b22',
-          white: '#f0f6fc',
+          white: {
+            link: '#f0f6fc',
+            comment: '#8b949e',
+            normal: '#c9d1d9',
+          },
         },
       },
     },
