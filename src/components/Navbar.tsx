@@ -15,7 +15,11 @@ export function Navbar() {
           </div>
           <div>
             <ul className="flex gap-3 text-sm items-center">
-              <a href="https://github.com/hahuaz">
+              <a
+                href="https://github.com/hahuaz"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <GithubSvg fill="white"></GithubSvg>
               </a>
               <span>-</span>
