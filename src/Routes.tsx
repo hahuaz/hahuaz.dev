@@ -1,8 +1,4 @@
-import {
-  Routes as RoutesProvider,
-  Route,
-  BrowserRouter,
-} from 'react-router-dom';
+import { Routes as RoutesProvider, Route } from 'react-router-dom';
 
 /**
  * File-based routing.
@@ -29,12 +25,10 @@ export default function Routes() {
   console.log(routeComponents);
 
   return (
-    <BrowserRouter>
-      <RoutesProvider>
-        {routeComponents}
-        <Route path="*" element={<NoMatch />} />
-      </RoutesProvider>
-    </BrowserRouter>
+    <RoutesProvider>
+      {routeComponents}
+      <Route path="*" element={<NoMatch />} />
+    </RoutesProvider>
   );
 }
 

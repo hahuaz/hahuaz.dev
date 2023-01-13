@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { GithubSvg } from '../assets';
 export function Navbar() {
   return (
@@ -6,7 +8,9 @@ export function Navbar() {
         <div className="flex justify-between items-center">
           <div className="">
             <span className="font-semibold text-lg">&gt;</span>{' '}
-            <span className="font-semibold">Hasan Biyik</span>
+            <Link to="/">
+              <span className="font-semibold">Hasan Biyik</span>
+            </Link>
             <span className="cursor-animation"></span>
           </div>
           <div>
