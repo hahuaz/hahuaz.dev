@@ -1,5 +1,12 @@
+import { Navbar } from './components';
+
 function App() {
-  return <div className="bg-red-500">hello world</div>;
+  return (
+    <>
+      <Navbar></Navbar>
+      <p>Coming soon...</p>
+    </>
+  );
 }
 
 export default App;
