@@ -1,6 +1,6 @@
 export const articles = [
   {
-    createdAt: '2022-01-13',
+    createdAt: '2023-01-13',
     title: 'Mirror a website using wget',
     slug: 'mirror-a-website-using-wget',
     summary:
