@@ -1,10 +1,11 @@
 import { Navbar } from './components';
+import { RouterProvider } from './providers';
 
 function App() {
   return (
     <>
       <Navbar></Navbar>
-      <p>Coming soon...</p>
+      <RouterProvider></RouterProvider>
     </>
   );
 }
