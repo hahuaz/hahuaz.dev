@@ -7,6 +7,8 @@ import {
   aws_lambda,
   aws_cloudfront_origins,
   aws_certificatemanager,
+  aws_route53,
+  aws_route53_targets,
 } from 'aws-cdk-lib';
 
 import { Construct } from 'constructs';
@@ -16,7 +18,8 @@ export class AppStack extends cdk.Stack {
     super(scope, id, props);
 
     const branch = this.node.tryGetContext('branch');
-    const { region } = this.node.tryGetContext(branch);
+    const { region, DOMAIN_NAME, DOMAIN_CERTIFICATE } =
+      this.node.tryGetContext(branch);
 
     const siteBucket = new aws_s3.Bucket(this, 'siteBucket', {
       websiteIndexDocument: 'index.html',
@@ -24,6 +27,7 @@ export class AppStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
     });
+
     const customCachePolicy = new aws_cloudfront.CachePolicy(
       this,
       'cachePolicy',
@@ -73,7 +77,6 @@ export class AppStack extends cdk.Stack {
           responseHeadersPolicy: customResponsePolicy,
         },
         additionalBehaviors: {},
-        // defaultRootObject: '/index.html', // if it's SPA
         errorResponses: [
           {
             httpStatus: 404,
@@ -81,33 +84,33 @@ export class AppStack extends cdk.Stack {
             responsePagePath: '/index.html',
           },
         ],
-        //   domainNames: [DOMAIN_NAME],
-        //   // CF distribution only accept certificates that is on us-east-1
-        //   certificate: aws_certificatemanager.Certificate.fromCertificateArn(
-        //     this,
-        //     'DOMAIN_CERTIFICATE',
-        //     DOMAIN_CERTIFICATE
-        //   ),
+        domainNames: [DOMAIN_NAME],
+        /**
+         * CF distribution only accept certificates that is created on us-east-1.
+         * Certificate will be created manually on the console because it requires manuel DNS
+         * validation on registrar, which is usually Google, and force us to create new stack
+         * on us-east-1 just to declare certificate resource
+         */
+        certificate: aws_certificatemanager.Certificate.fromCertificateArn(
+          this,
+          'DOMAIN_CERTIFICATE',
+          DOMAIN_CERTIFICATE
+        ),
       }
     );
 
-    const myFunction = new aws_lambda_nodejs.NodejsFunction(
-      this,
-      'my-function',
-      {
-        memorySize: 1024,
-        timeout: cdk.Duration.seconds(5),
-        runtime: aws_lambda.Runtime.NODEJS_16_X,
-        handler: 'main',
-        entry: path.join(__dirname, `/../src/lambdas/example/index.ts`),
-        bundling: {
-          minify: true,
-        },
-        environment: {
-          APP_REGION: region,
-        },
-      }
-    );
+    // DNS records of the domain should be configured to point NS of hosted zone.
+    const hostedZone = new aws_route53.PublicHostedZone(this, 'HostedZone', {
+      zoneName: DOMAIN_NAME,
+    });
+
+    const aliasRecord = new aws_route53.ARecord(this, 'AliasRecord', {
+      zone: hostedZone,
+      recordName: DOMAIN_NAME,
+      target: aws_route53.RecordTarget.fromAlias(
+        new aws_route53_targets.CloudFrontTarget(siteBucketDist)
+      ),
+    });
 
     // CFN OUTPUTS
     new cdk.CfnOutput(this, 'siteBucketUrl', {

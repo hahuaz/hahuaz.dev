@@ -18,7 +18,9 @@
     "PROD": {
       "account": "725077116981",
       "region": "us-west-2",
-      "appName": "hahuaz"
+      "appName": "hahuaz",
+      "DOMAIN_NAME": "hahuaz.dev",
+      "DOMAIN_CERTIFICATE": "arn:aws:acm:us-east-1:725077116981:certificate/a9592cdd-8916-46b0-acc6-277af66062c9"
     }
   }
 }
