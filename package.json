@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --port 3000",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy-s3": "cd ./dist && aws s3 rm s3://prod-hahuaz-sitebucket04cddfa5-1kf6pqn0hy125 --recursive --profile hahuaz-root && aws s3 cp . s3://prod-hahuaz-sitebucket04cddfa5-1kf6pqn0hy125 --recursive --profile hahuaz-root "
   },
   "dependencies": {
     "@types/react-syntax-highlighter": "^15.5.6",

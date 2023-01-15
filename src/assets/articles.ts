@@ -1,12 +1,21 @@
 export const articles = [
   {
+    createdAt: '2023-01-16',
+    title: 'Deploy SPA to AWS',
+    slug: 'deploy-spa-to-aws',
+    summary:
+      'Deploying a Single Page Application (SPA) to Amazon Web Services (AWS) is a popular and powerful way to host your web app.',
+    tags: ['cdk', 'ts'],
+    image: '/article/deploy-spa-to-aws/aws-website-hosting.png',
+  },
+  {
     createdAt: '2023-01-13',
     title: 'Mirror a website using wget',
     slug: 'mirror-a-website-using-wget',
     summary:
       'Wget is a command-line tool used to download files from the internet for offline viewing.',
     tags: ['docker'],
-    image: '/article/wget.webp',
+    image: '/article/mirror-a-website-using-wget/wget.webp',
   },
 ];
 
