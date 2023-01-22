@@ -1,5 +1,14 @@
 export const articles = [
   {
+    createdAt: '2023-01-22',
+    title: 'Upload a file to S3 by using signed URL',
+    slug: 'upload-a-file-to-s3-by-using-signed-url',
+    summary:
+      'Pre-signed URL can be used by clients to upload a file to an S3 bucket, without requiring the client to have AWS credentials or permission.',
+    tags: ['cdk', 's3'],
+    image: '/article/upload-a-file-to-s3-by-using-signed-url/upload.png',
+  },
+  {
     createdAt: '2023-01-16',
     title: 'Deploy SPA to AWS',
     slug: 'deploy-spa-to-aws',
