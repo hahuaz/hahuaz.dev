@@ -33,57 +33,76 @@ export default function Article() {
             will then display only the products that match the search query.{' '}
             <br />
           </p>
-          <h3 className="text-2xl font-semibold text-github-white-link !mt-12">
-            # What will we build?
-          </h3>
-          <div>
-            <video
-              src="/article/shopify-product-search-but-with-slider/2023-01-29 15-30-17.mkv"
-              autoPlay
-              loop
-              muted
-            ></video>
-          </div>
-          <p>
-            The Shopify documentation only covers the basics of working with{' '}
-            <a
-              className="text-blue-400"
-              target="_blank"
-              href="https://shopify.dev/themes/architecture/templates/search"
-              rel="noreferrer"
-            >
-              the Form tag
-            </a>{' '}
-            and lacks technical depth. While they aim for simplicity, this
-            results in developers having to search through theme code in their
-            IDE rather than finding the information they need in the
-            documentation. Our landing page will display a server-side rendered
-            slider, and user inputs will dynamically update it via AJAX requests
-            for a seamless experience.
-          </p>
-          <p>
-            For improved user experience, we'll implement a debounced input that
-            instantly displays the products as soon as the user finishes typing,
-            actually after one second, eliminating the need to hit enter.
-          </p>
-          <h3 className="text-2xl font-semibold text-github-white-link !mt-12">
-            # Prerequisites
-          </h3>
-          <ul className="list-disc list-inside">
-            <li>
-              Having exprience with{' '}
+          <section>
+            <h3 className="text-2xl font-semibold text-github-white-link !mt-12">
+              # What will we build?
+            </h3>
+            <div>
+              <video
+                src="/article/shopify-product-search-but-with-slider/2023-01-29 15-30-17.mkv"
+                autoPlay
+                loop
+                muted
+              ></video>
+            </div>
+            <p>
+              The Shopify documentation only covers the basics of working with{' '}
               <a
                 className="text-blue-400"
                 target="_blank"
-                href="https://shopify.dev/themes/architecture"
+                href="https://shopify.dev/themes/architecture/templates/search"
                 rel="noreferrer"
               >
-                Shopify theme architecture
+                the Form tag
+              </a>{' '}
+              and lacks technical depth. While they aim for simplicity, this
+              results in developers having to search through theme code in their
+              IDE rather than finding the information they need in the
+              documentation. Our landing page will display a server-side
+              rendered slider, and user inputs will dynamically update it via
+              AJAX requests for a seamless experience.
+            </p>
+            <p>
+              For improved user experience, we'll implement a debounced input
+              that instantly displays the products as soon as the user finishes
+              typing, actually after one second, eliminating the need to hit
+              enter.
+            </p>
+            <p className="mt-4">
+              Completed section can found in this{' '}
+              <a
+                className="text-blue-400"
+                target="_blank"
+                href="https://github.com/hahuaz/shopify-themes/blob/dev/dawn-main/sections/search-slide.liquid"
+                rel="noreferrer"
+              >
+                dawn theme
               </a>
-              .
-            </li>
-            <li>Having exprience with DOM manipulation.</li>
-          </ul>
+              . You can clone the repo and directly start your own dev
+              environment.
+            </p>
+          </section>
+          <section>
+            <h3 className="text-2xl font-semibold text-github-white-link !mt-12">
+              # Prerequisites
+            </h3>
+            <ul className="list-disc list-inside">
+              <li>
+                Having exprience with{' '}
+                <a
+                  className="text-blue-400"
+                  target="_blank"
+                  href="https://shopify.dev/themes/architecture"
+                  rel="noreferrer"
+                >
+                  Shopify theme architecture
+                </a>
+                .
+              </li>
+              <li>Having exprience with DOM manipulation.</li>
+            </ul>
+          </section>
+
           <h3 className="text-2xl font-semibold text-github-white-link !mt-12">
             # Start typing...
           </h3>
