@@ -1,5 +1,14 @@
 export const articles = [
   {
+    createdAt: '2023-01-29',
+    title: 'Shopify product search but with slider',
+    slug: 'shopify-product-search-but-with-slider',
+    summary:
+      'Product search with slider section is a great way to showcase your products in a stylish and interactive manner.',
+    tags: ['liquid'],
+    image: '/article/shopify-product-search-but-with-slider/shopify.webp',
+  },
+  {
     createdAt: '2023-01-22',
     title: 'Upload a file to S3 by using signed URL',
     slug: 'upload-a-file-to-s3-by-using-signed-url',
