@@ -175,8 +175,8 @@ if (Shopify.designMode) {
                 section on the page multiple times.
               </li>
               <li>
-                Pay attention how I use {`{{ section.id }}`} in javascript to
-                access unique swiper element.
+                Pay attention how We utilize {`{{ section.id }}`} in javascript
+                to access unique swiper element.
               </li>
             </ul>
           </section>
@@ -198,9 +198,9 @@ if (Shopify.designMode) {
             </pre>
             <ul className="list-disc list-inside">
               <li>
-                When a user makes changes in the Shopify editor, the DOM
-                refreshes, which removes event listeners for Swiper and breaks
-                its functionality, but doesn't re-execute your js files.
+                When a user makes changes in the Shopify editor, the DOM is
+                refreshed but script files are not executed again, which means
+                event listeners are removed and Swiper lost its functionality.
                 <br />
                 To fix this, we added an event listener to the document for the
                 shopify.section:load event, which re-initiates the Swiper
