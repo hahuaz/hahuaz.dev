@@ -1,5 +1,14 @@
 export const articles = [
   {
+    createdAt: '2023-02-01',
+    title: 'Lambda Authorizer: A Guide to Secure Your AWS API Gateway',
+    slug: 'lambda-authorizer-a-guide-to-secure-your-aws-api-gateway',
+    summary:
+      'API Gateway is fully managed service to build, deploy, and manage APIs. Lambda Authorizer, a serverless function-based authorization method, can secure your API endpoints and control access to your APIs.',
+    tags: ['cdk', 'api'],
+    image: '/article/general/lambda.png',
+  },
+  {
     createdAt: '2023-01-29',
     title: 'Shopify product search but with slider',
     slug: 'shopify-product-search-but-with-slider',
