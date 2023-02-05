@@ -26,7 +26,7 @@ export default function Article() {
             A Lambda Authorizer is a custom authorizer that uses an AWS Lambda
             function to control access to an API. The Lambda function acts as a
             middleware, taking the incoming request and returning either an
-            authorization policy or an error message.
+            allow or deny policy.
           </p>
           <p>
             The completed project can be found{' '}
@@ -53,9 +53,9 @@ export default function Article() {
               <li>
                 Flexibility: A Lambda Authorizer gives you complete control over
                 the authorization logic, allowing you to use custom
-                authentication mechanisms and integrate with other AWS services.
-                This enables you to build and implement a security strategy that
-                fits your specific needs and requirements.
+                authentication mechanisms. This enables you to build and
+                implement a security strategy that fits your specific needs and
+                requirements.
               </li>
               <li>
                 Scalability: Lambda functions automatically scale to handle any
@@ -72,23 +72,23 @@ export default function Article() {
                 writing and deploying your authorization logic, without worrying
                 about server management and maintenance.
               </li>
+              <li>
+                Pay per use: If an incoming request doesn't have the required
+                authorization header, it will be dropped by the API Gateway
+                without reaching the Lambda Authroizer. This means you won't pay
+                for Lambda call but only for API request.
+              </li>
+              <li>
+                Maintainability: By separating the authorization code from the
+                application code, you can improve the structure and
+                maintainability of your codebase. This helps to keep your code
+                organized and makes it easier to manage and update your
+                authorization logic in the future. Additionally, separating the
+                authorization code helps to reduce the risk of security
+                vulnerabilities, as it makes it easier to identify and fix
+                security issues in your authorization logic.
+              </li>
             </ul>
-
-            <p>
-              If an incoming request doesn't have the required authorization
-              header, it will be dropped by the API Gateway without reaching the
-              Lambda Authroizer. This means you won't pay for Lambda call but
-              only for API request. <br />
-            </p>
-            <p>
-              By separating the authorization code from the application code,
-              you can improve the structure and maintainability of your
-              codebase. This helps to keep your code organized and makes it
-              easier to manage and update your authorization logic in the
-              future. Additionally, separating the authorization code helps to
-              reduce the risk of security vulnerabilities, as it makes it easier
-              to identify and fix security issues in your authorization logic.
-            </p>
           </section>
           <section>
             <h3 className="text-2xl font-semibold text-github-white-link !mt-12">
@@ -318,6 +318,39 @@ export default function Article() {
             </ul>
           </section>
           <section>
+            <h5 className="text-xl text-github-white-link mt-2">
+              Allow CORS on UNAUTHORIZED response
+            </h5>
+
+            <pre>
+              <code className={`language-javascript`}>
+                {`this.api.addGatewayResponse('403', {
+  type: aws_apigateway.ResponseType.UNAUTHORIZED,
+  statusCode: '403',
+  responseHeaders: {
+    'Access-Control-Allow-Origin': "'*'",
+  },
+});
+`}
+              </code>
+            </pre>
+            <ul className="list-disc list-inside">
+              <li>
+                API Gateway has default responses that it returns the client if
+                the request doesn't apply to defined criteria.
+              </li>
+              <li>
+                There are bunch of default responses API Gateway returns to
+                client. Some of them are UNAUTHORIZED, THROTTLED,
+                BAD_REQUEST_BODY, ACCESS_DENIED. When lamda authorizer returns
+                deny policy, API Gateway will send the UNAUTHORIZED response
+                type to the client. By default, it won't allow any CORS header
+                so we won't be able to see error message. We change this
+                behaviour with above code snippet.
+              </li>
+            </ul>
+          </section>
+          <section>
             <h3 className="text-2xl font-semibold text-github-white-link !mt-12">
               # Lambda handler
             </h3>
@@ -325,10 +358,7 @@ export default function Article() {
             <h5 className="text-xl text-github-white-link mt-2">
               Hello-world dot ts
             </h5>
-            <p>
-              API Gateway has default responses that it returns the client if
-              the request doesn't apply to defined criteria.
-            </p>
+
             <pre>
               <code className={`language-javascript`}>
                 {`import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
@@ -476,10 +506,7 @@ export const handler = async function (event: any) {
             <h5 className="text-xl text-github-white-link mt-2">
               index dot html
             </h5>
-            <p>
-              API Gateway has default responses that it returns the client if
-              the request doesn't apply to defined criteria.
-            </p>
+
             <pre>
               <code className={`language-javascript`}>
                 {`<!DOCTYPE html>
