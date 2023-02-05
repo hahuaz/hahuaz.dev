@@ -30,7 +30,7 @@ export function ArticleCard({
               })}
             </div>
             <Link
-              to={slug}
+              to={`article/${slug}`}
               className="inline-block text-3xl text-github-white-link"
             >
               {title}
