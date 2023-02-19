@@ -1,5 +1,14 @@
 export const articles = [
   {
+    createdAt: '2023-02-18',
+    title: 'Building a CI/CD Pipeline with AWS CDK',
+    slug: 'building-a-cicd-pipeline-with-aws-cdk',
+    summary:
+      "Learn how to use AWS CDK to automate your application's deployment and create a reliable and scalable pipeline.",
+    tags: ['cdk', 'devops'],
+    image: '/article/general/aws-codepipeline.jpg',
+  },
+  {
     createdAt: '2023-02-01',
     title: 'Lambda Authorizer: A Guide to Secure Your AWS API Gateway',
     slug: 'lambda-authorizer-a-guide-to-secure-your-aws-api-gateway',

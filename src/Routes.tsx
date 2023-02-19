@@ -18,7 +18,7 @@ export default function Routes() {
   const pathPrefix = '';
   const routeComponents = routes.map(({ path, component: Component }) => {
     path = `${pathPrefix}${path}`;
-    console.log(path);
+    // console.log(path);
     return <Route key={path} path={path} element={<Component />} />;
   });
 

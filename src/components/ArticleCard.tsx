@@ -37,7 +37,7 @@ export function ArticleCard({
             </Link>
             <p>{summary}</p>
           </div>
-          <Link to={slug} className="">
+          <Link to={`article/${slug}`} className="">
             <div className="h-40 w-40">
               <img
                 src={image}

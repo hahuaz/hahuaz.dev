@@ -7,6 +7,7 @@ module.exports = {
         github: {
           black: '#010409',
           gray: '#161b22',
+          blue: '#1f6feb',
           white: {
             link: '#f0f6fc',
             comment: '#8b949e',
