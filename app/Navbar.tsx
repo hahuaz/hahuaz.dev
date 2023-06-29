@@ -15,20 +15,37 @@ export default function Navbar() {
           </div>
           <div>
             <ul className='flex gap-3 text-sm items-center'>
-              <a
-                href='https://github.com/hahuaz'
-                target='_blank'
-                rel='noreferrer'
-              >
-                <Image
-                  src='/github.svg'
-                  alt='Github Logo'
-                  className='dark:invert'
-                  width={30}
-                  height={30}
-                  priority
-                />
-              </a>
+              <div className='flex gap-2'>
+                <a
+                  href='https://github.com/hahuaz'
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  <Image
+                    src='/github.svg'
+                    alt='Github Logo'
+                    className='dark:invert'
+                    width={30}
+                    height={30}
+                    priority
+                  />
+                </a>
+                <a
+                  href='https://www.linkedin.com/in/hasan-biyik-51046a116/'
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  <Image
+                    src='/linkedin.svg'
+                    alt='Linkedin Logo'
+                    className='dark:invert'
+                    width={30}
+                    height={30}
+                    priority
+                  />
+                </a>
+              </div>
+
               <span>-</span>
               <a href='/hasan-biyik.pdf' className='font-semibold'>
                 Resume
