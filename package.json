@@ -9,7 +9,7 @@
     "watch": "tsc -w",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit",
     "lint": "eslint . --ext js,jsx,ts,tsx --fix",
-    "cdk-watch": "cdk watch PROD-hahuaz --hotswap --logs --profile hahuaz-root",
+    "cdk-watch": "cdk watch PROD-hahuaz --hotswap-fallback --logs --profile hahuaz-root",
     "cdk-deploy": "cdk deploy --profile hahuaz-root"
   },
   "dependencies": {

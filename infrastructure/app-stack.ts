@@ -1,17 +1,15 @@
-import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import {
   aws_s3,
   aws_cloudfront,
-  aws_lambda_nodejs,
-  aws_lambda,
   aws_cloudfront_origins,
   aws_certificatemanager,
   aws_route53,
   aws_route53_targets,
 } from 'aws-cdk-lib';
-
 import { Construct } from 'constructs';
+
+import { LambdaConstruct } from './constructs/lambda';
 
 export class AppStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -23,10 +21,28 @@ export class AppStack extends cdk.Stack {
 
     const siteBucket = new aws_s3.Bucket(this, 'siteBucket', {
       websiteIndexDocument: 'index.html',
-      publicReadAccess: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
+      publicReadAccess: true,
+      blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ACLS,
+      accessControl: aws_s3.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
     });
+
+    // CUSTOM CONSTRUCTS
+    // const { sentenceTable, audioBucket, siteBucket, sentenceTableParam } =
+    // new StorageConstruct(this, `storage`, {});
+
+    // lamba, depends on storage
+    const { postMapper } = new LambdaConstruct(this, `lambda`, {});
+
+    // api, depends on lambda
+    // const { api: _api, sentenceProxy: _sentenceProxy } = new ApiConstruct(
+    //   this,
+    //   `api`,
+    //   {
+    //     sentenceProxyFunction,
+    //   }
+    // );
 
     const customCachePolicy = new aws_cloudfront.CachePolicy(
       this,
@@ -76,7 +92,17 @@ export class AppStack extends cdk.Stack {
           cachePolicy: customCachePolicy,
           responseHeadersPolicy: customResponsePolicy,
         },
-        additionalBehaviors: {},
+        additionalBehaviors: {
+          'posts/*': {
+            origin: siteBucketOrigin,
+            edgeLambdas: [
+              {
+                functionVersion: postMapper.currentVersion,
+                eventType: aws_cloudfront.LambdaEdgeEventType.ORIGIN_REQUEST,
+              },
+            ],
+          },
+        },
         errorResponses: [
           {
             httpStatus: 404,
