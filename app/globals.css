@@ -3,11 +3,22 @@
 @tailwind utilities;
 
 :root {
-  /* background-color: #0d1117; */
-  background-color: #010409;
-
-  color: #c9d1d9;
+  background-color: theme('colors.github.inactiveBackground');
+  color: theme('colors.github.white.normal');
 }
+
+/* modify tailwind */
+/* .prose :where(pre:has(> div.code)) {
+  background-color: unset !important;
+  padding: unset !important;
+  border-radius: unset !important;
+} */
+
+.prose {
+  max-width: 80ch;
+}
+
+/* end of modify tailwind */
 
 .cursor-animation {
   display: inline-block;
