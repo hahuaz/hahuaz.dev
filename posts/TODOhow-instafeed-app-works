@@ -1,0 +1,10 @@
+---
+title: "How Instafeed app works"
+summary: "Instafeed is popular SaaS application on Shopify platform. We will look under the hood how its client side is handled."
+createdAt: "2023-07-07"
+tags: ['Shopify', 'SaaS']
+image: '/images/posts/general/shopify.webp'
+---
+There is similar flow when it comes to solutions of Shopify SaaS applications. They all leverage the same futures of Shopify platform.
+With 2021, Shopify released [Online Store 2.0](https://shopify.dev/docs/themes/os20) which introduces new theme architecture. Biggest change was template files started using JSON format to insert sections to the page.
+Shopify wants and forces you to follow these new tools
