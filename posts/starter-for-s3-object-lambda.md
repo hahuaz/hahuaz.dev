@@ -110,7 +110,7 @@ export const handler = async (event: any): Promise<any> => {
 ## Testing the S3 Object Lambda Access Point
 For testing we will use AWS CLI but you can use also use SDK on your chose of language.
 
-```terminal
+```bash
 aws s3api get-object --bucket '{objectLambdaAccessPointArn}' --key forest.jpg './thumbnail.jpg' --profile "{yourProfile}"
 ```
 
