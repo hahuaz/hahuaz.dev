@@ -32,7 +32,7 @@ Now we can use `git filter-repo` command to remove a file from git history
 git filter-repo --invert-paths --path RELATIVE_PATH_TO_YOUR_FILE
 ```
 
-### Error you can encounter
+### Error you may encounter
 While using `git filre-repo` if you got an error saying python3 is not defined it's because your python directory lacks `python3.exe` and your python executable is likely named `python.exe`.
 
 If you open the git_filter_repo.py that you copy/pasted and look the first line, you will find `#!/usr/bin/env python3`. This is called a shebang. It is commonly found at the beginning of a script file in Unix-like operating systems. It is instruction to the operating system, specifying which interpreter should be used to execute the script. In this case, python3 is specified as the interpreter. But as I mentioned your python directory lacks `python3.exe` and we need to create it.
