@@ -17,9 +17,20 @@ const CodeBlock = (props: any) => {
     return <pre>{children}</pre>;
   }
 
+  console.log(children.props);
   // Get className prop from <code> tag
   const { className, children: codeSnippet } = children.props;
   // console.log(className);
+
+  // access file name
+  let filename;
+  const definedClassNames = Object.keys(children.props);
+  definedClassNames.forEach((key) => {
+    if (key.startsWith('filename-') && definedClassNames.includes('ts')) {
+      filename = key.replace('filename-', '');
+      filename = `${filename}.ts`;
+    }
+  });
 
   let language;
   if (className === 'lang-ts') {
@@ -59,14 +70,25 @@ const CodeBlock = (props: any) => {
   }
 
   return (
-    <SyntaxHighlighter
-      language={language}
-      style={codeStyle}
-      className={'code '}
-      wrapLines={true}
-    >
-      {codeSnippet}
-    </SyntaxHighlighter>
+    <>
+      {filename && (
+        <span className='bg-zinc-700 px-2 py-1 rounded-t-md text-xs inline-block'>
+          {filename}
+        </span>
+      )}
+      <SyntaxHighlighter
+        language={language}
+        style={codeStyle}
+        customStyle={{
+          marginTop: '0',
+          borderTopLeftRadius: '0',
+        }}
+        className={'code '}
+        wrapLines={true}
+      >
+        {codeSnippet}
+      </SyntaxHighlighter>
+    </>
   );
 };
 

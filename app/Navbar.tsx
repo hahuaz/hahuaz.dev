@@ -47,7 +47,12 @@ export default function Navbar() {
               </div>
 
               <span>-</span>
-              <a href='/hasan-biyik.pdf' className='font-semibold'>
+              <a
+                href='/hasan-biyik.pdf'
+                target='_blank'
+                rel='noreferrer'
+                className='font-semibold'
+              >
                 Resume
               </a>
               <span className='mb-1 text-xl'>|</span>
