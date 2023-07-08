@@ -58,3 +58,7 @@ const mybucket = new aws_s3.Bucket(this, 'mybucket2', {
 ![s3-block-public-access-settings](/images/posts/resolve-api-s3-putbucketpolicy-access-denied/s3-block-public-access-settings.png)
 - In S3 console, we can also see the public bucket policy, which we were able to set after the configuration, which is defined by the `publicReadAccess: true` configuration:
 ![s3-get-object-policy](/images/posts/resolve-api-s3-putbucketpolicy-access-denied/s3-get-object-policy.png)
+
+## References
+- https://github.com/aws/aws-cdk/issues/25983
+- https://www.reddit.com/r/aws/comments/12tqqpw/aws_cdk_api_s3_putbucketpolicy_access_denied_and/ 
