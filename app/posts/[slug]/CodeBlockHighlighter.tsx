@@ -17,7 +17,7 @@ const CodeBlock = (props: any) => {
     return <pre>{children}</pre>;
   }
 
-  console.log(children.props);
+  // console.log(children.props);
   // Get className prop from <code> tag
   const { className, children: codeSnippet } = children.props;
   // console.log(className);
