@@ -5,12 +5,22 @@ export const metadata = {
 };
 
 import { getPostMetadata } from '@/lib/post';
-import { ArticleCard } from './ArticleCard';
+import ArticleCard from './ArticleCard';
+import FeaturedVideo from './FeaturedVideo';
 
 const HomePage = () => {
   const postMetadata = getPostMetadata();
 
-  return postMetadata.map((post) => <ArticleCard key={post.slug} {...post} />);
+  return (
+    <>
+      <div className='max-w-screen-md mx-auto'>
+        <FeaturedVideo />
+        {postMetadata.map((post) => (
+          <ArticleCard key={post.slug} {...post} />
+        ))}
+      </div>
+    </>
+  );
 };
 
 export default HomePage;
