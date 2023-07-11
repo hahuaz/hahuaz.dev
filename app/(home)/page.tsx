@@ -13,11 +13,15 @@ const HomePage = () => {
 
   return (
     <>
-      <div className='max-w-screen-md mx-auto'>
-        <FeaturedVideo />
-        {postMetadata.map((post) => (
-          <ArticleCard key={post.slug} {...post} />
-        ))}
+      <div className='max-w-screen-xl mx-auto flex gap-20 mt-5'>
+        <div className='max-w-2xl'>
+          {postMetadata.map((post) => (
+            <ArticleCard key={post.slug} {...post} />
+          ))}
+        </div>
+        <div className='w-full'>
+          <FeaturedVideo />
+        </div>
       </div>
     </>
   );

@@ -10,17 +10,17 @@ export default function ArticleCard({
 }: any) {
   return (
     <>
-      <div className='flex gap-10 items-center pl-9 py-9'>
+      <div className='flex gap-10 items-center py-9'>
         <div>
           <div>
-            <span className='text-sm text-github-white-comment'>
+            <span className='text-sm text-github-white-comment mr-2'>
               {createdAt}
             </span>
             {tags.map((tag: string, i: number) => {
               return (
                 <span
                   key={i}
-                  className='mx-2 rounded text-xs px-1 border border-github-white-comment bg-github-gray'
+                  className='mx-1 rounded text-xs px-1 border border-github-white-comment bg-github-gray'
                 >
                   {tag}
                 </span>
