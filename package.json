@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy-s3": "cd ./dist && aws s3 rm s3://prod-hahuaz-sitebucket04cddfa5-e8tpr2nt1u5w --recursive --profile hahuaz-root && aws s3 cp . s3://prod-hahuaz-sitebucket04cddfa5-e8tpr2nt1u5w --recursive --profile hahuaz-root "
+    "deploy-s3": "aws s3 sync dist s3://prod-hahuaz-sitebucket04cddfa5-e8tpr2nt1u5w --delete --profile hahuaz-root "
   },
   "dependencies": {
     "autoprefixer": "10.4.14",
