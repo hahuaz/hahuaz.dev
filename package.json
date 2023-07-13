@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next-sitemap",
     "start": "next start",
     "lint": "next lint",
     "deploy-s3": "aws s3 sync dist s3://prod-hahuaz-sitebucket04cddfa5-e8tpr2nt1u5w --delete --profile hahuaz-root && aws cloudfront create-invalidation --distribution-id EPTRY5QT2FU0V --paths \"/*\" --profile hahuaz-root"
@@ -16,6 +16,7 @@
     "gray-matter": "^4.0.3",
     "markdown-to-jsx": "^7.2.1",
     "next": "13.4.7",
+    "next-sitemap": "^4.1.8",
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",
