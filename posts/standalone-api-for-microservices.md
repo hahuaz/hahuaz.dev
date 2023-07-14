@@ -2,7 +2,7 @@
 title: "Standalone API for Microservices"
 summary: "Create a standalone API for your microservices and map them to your API Gateway custom domain name."
 createdAt: "2023-07-15"
-tags: ['cdk', 'api']
+tags: ['microservice', 'api']
 image: '/images/posts/general/apigateway.png'
 ---
 
