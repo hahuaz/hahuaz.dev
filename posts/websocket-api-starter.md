@@ -20,13 +20,13 @@ The completed project can be found [here](https://github.com/hahuaz/cdk-examples
 5. The messageHandler Lambda retrieves the connected IDs from connectionTable and broadcasts the received message to all connected clients.
 
 ## Difference between Websocket API and REST API
-#### Communication model: 
+1. Communication model: 
 With WebSocket API, once the WebSocket connection is established, both parties can send data to each other without the need for the client to initiate a request.   
 REST API follows a request-response model where the client initiates a request, and the server responds to it and vice-verca can't be accomplie
-#### Use Cases Scenarios:
+2. Use Cases Scenarios:
 WebSocket is well-suited for applications that require real-time updates, such as chat applications, collaborative tools, live dashboards.   
 REST API is widely used for building APIs that serve resources and enable CRUD (Create, Read, Update, Delete) operations.
-#### Caching and State:
+3. Caching and State:
 WebSocket does not inherently support caching mechanisms as it relies on real-time data exchange.   
 REST APIs can leverage caching mechanisms at various levels, such as caching responses at the server, implementing client-side caching, or utilizing cache-control headers. This can improve performance and reduce the server load, especially for requests that fetch static or infrequently changing data. REST also follows a stateless communication model. Each request from the client to the server is independent and does not maintain any state on the server. The server treats each request as a standalone interaction, without any knowledge of previous requests made by the client. 
 
@@ -391,5 +391,5 @@ We are gonna use https://piesocket.com and two Chrome browser in cognito mode si
 
 <video src="/images/posts/websocket-api-starter/testing-websocket-api.mp4" controls title="Title"></video>
 
-### References
+## References
 - https://docs.aws.amazon.com/cdk/api/v2/docs/@aws-cdk_aws-apigatewayv2-alpha.WebSocketApi.html

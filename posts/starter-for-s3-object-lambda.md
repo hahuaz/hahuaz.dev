@@ -70,7 +70,7 @@ const objectLambdaAccessPoint = new aws_s3objectlambda.CfnAccessPoint(
 - Challenging part for me was not being able to see contentTransformation type. It doesn't expect complicated value but not seeing the type was suprising. After all we love TS documentation on AWS CDK.
 - The aws_s3.CfnAccessPoint configuration also accepts `policy` prop to define IAM policy on the Access Point but I found defining the permission policies on the Lambda more intuitive.
 
-## Lambda handlers:
+## Lambda handlers
 ```ts filename-thumbnail-creator.ts
 import * as AWS from 'aws-sdk';
 import axios from 'axios';

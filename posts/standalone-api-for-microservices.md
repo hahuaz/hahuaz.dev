@@ -8,6 +8,8 @@ image: '/images/posts/general/apigateway.png'
 
 The completed project can be found [here](https://github.com/hahuaz/cdk-examples/tree/dev/standalone-api-for-microservices).
 
+## Introduction
+
 Before diving into creating a standalone API, let's quickly recap the key concepts.   
 Microservices are small, self-contained services that focus on specific business functionalities. These services communicate with each other through APIs.
 Each microservice can be developed and deployed by seperate teams, as long as the API contract remains consistent. Moreover, microservice approach supports scalability since you have the ability to scale individual microservices according to their unique requirements.
@@ -180,7 +182,7 @@ export default class OrderMicroserviceStack extends cdk.Stack {
 - A REST API is created and added as target on `/order/*` path to the API Gateway Custom domain.
 - The `domainName` prop accepts `IDomain` interface as value so we've used aws_apigateway.DomainName.fromDomainNameAttributes() function to create it.
 
-### Testing the mapping configuration
+## Testing the mapping configuration
 
 ```bash
 curl -X GET https://api.example.com/order/1
@@ -188,5 +190,5 @@ curl -X GET https://api.example.com/order/1
 ```
 
 
-### References
+## References
 - https://repost.aws/questions/QU6sXRXAzXQze9wWNJz1TUAw/reference-resources-between-cdk-stacks

@@ -6,6 +6,8 @@ tags: ['cdk', 'ts']
 image: '/images/posts/deploy-spa-to-aws/aws-website-hosting.png'
 ---
 
+## Introduction
+
 Deploying a Single Page Application (SPA) to Amazon Web Services (AWS) is a flexible and scalable way to host your web application. AWS offers a variety of services that can be used to deploy and host SPAs, including Amazon S3 and Amazon CloudFront.
 
 ## What will we be doing?
@@ -49,7 +51,7 @@ After a successful deployment, you should see output similar to the following in
 
 ## Create necessary resources
 
-### Create S3 bucket for site:
+### S3 bucket for storing site files
 
 ```ts
 const siteBucket = new aws_s3.Bucket(this, 'siteBucket', {
@@ -64,7 +66,7 @@ const siteBucket = new aws_s3.Bucket(this, 'siteBucket', {
 
 - We are also enabling static website hosting for the bucket by specifying the websiteIndexDocument prop.
 
-### Create CloudFront resource for site distribution:
+### Cloudfront for site distribution
 
 First, we need to define our CloudFront cache policy. While doing continuous integration, I always keep the numbers zero. It basically disables the cache, and you always get fresh content from your origin. You need to increase the numbers for the production environment.
 
@@ -145,6 +147,7 @@ new cdk.CfnOutput(this, 'siteBucketDistDomain', {
 
 It will be wiser to explain the viewer and origin concepts for any given CDN at this point.
 
+## Understanding Viewer Requests and Origin Requests in CloudFront
 ![CloudFront Request Life Span](/images/posts/deploy-spa-to-aws/cloudfront-request-life-span.png)
 
 *Viewer request* refers to a request made by a user to access a specific resource or file that is stored on a CloudFront distribution. This request can be made through a web browser or any other application that is capable of making HTTP requests.
@@ -153,6 +156,8 @@ It will be wiser to explain the viewer and origin concepts for any given CDN at 
 
 For our distribution, we're configuring the viewer response behavior on the errorResponses prop. This configuration is important for SPAs because when a requested page is different than the root (/), for example https:\/\/yours.com/about, CloudFront won't find it on the origin (siteBucket) because it doesn't exist. When this occurs, it will serve the index.html instead of returning a 404 error. On the client side, JavaScript will take over and show the requested page by looking up the URL.
 
+## Deployment
+### Deploy the stack
 Deploy the stack again to create the newly defined resources.
 
 ```bash
@@ -163,6 +168,9 @@ Terminal will print the S3 URL for the site bucket and the domain for the distri
 
 ![Distribution Domain](/images/posts/deploy-spa-to-aws/distribution-domain.png)
 
+
+### Deploy the build files to S3
+
 Before using the distribution domain, we need to deploy the build files of the SPA to S3. Head over to your build directory and run:
 
 ```bash
@@ -172,6 +180,7 @@ aws s3 cp . <your-s3-url> --recursive --profile <yours>
 Now, you can view your app in the browser by visiting distribution
             domain.
 
+## Clean up 
 Clean up your account by destroying the stack:
   
 ```bash

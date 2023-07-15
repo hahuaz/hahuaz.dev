@@ -6,15 +6,15 @@ tags: ['aws', 'api']
 image: '/images/posts/general/apigateway.png'
 ---
 
-### Understanding the Challenge
+## Understanding the Challenge
 
 When an API Gateway receives a request, it passes the request payload to the associated Lambda function for processing. However, in scenarios where the payload does not meet the API Gateway configuration, such as missing or invalid parameters, there is no need to forward the request to the Lambda function, as it would only waste resources and add unnecessary overhead.
 
 To address this challenge, we will use a feature called "Request Validation" for API Gateway, which allows you to validate incoming requests against predefined models or schemas. By leveraging this feature, you can drop requests on the API Gateway level without invoking the corresponding Lambda function for non-compliant payloads. 
 
-### Resolving the challenge on two steps
+## Resolving the challenge on two steps
 
-#### 1. Define Schema
+### 1. Define Schema
 Start by defining request models or schemas using JSON Schema Draft 4. These models act as blueprints for validating incoming requests. They specify the structure, data types, and other constraints for the request payload.
 
 ```ts filename-app.ts
@@ -55,7 +55,7 @@ const requestModel = this.api.addModel('RequestModel', {
   - The `password` property is defined using anyOf, which specifies that it can be either a string or an integer.
 - The `required` property lists the properties that are mandatory in the request payload (role, username, and password).
 
-#### 2. Enable the validation on method
+### 2. Enable the validation on method
 Enable request validation on your API Gateway by associating the request models with the corresponding methods or resources. This ensures that all incoming requests are validated against the defined models.
 
 ```ts filename-app.ts
@@ -79,11 +79,11 @@ const testPost = testResource.addMethod(
 
 Overall, we defined a request model/schema for JSON payload validation, and configured a POST method with request validation using the defined model.
 
-### Testing the Model Schema
+## Testing the model schema
 
 We will utilize Postman as client and send invalid JSON payload and observe the 400 response, then we will send correct payload and observe the integrated response from Lambda.
 
 <video src="/images/posts/dropping-requests-on-api-gateway-level-for-non-compliant-payloads/testing-api-schema.mp4" controls ></video>
 
-### Conclusion 
+## Conclusion 
 Preventing the requests that do not comply with the defined API configuration, you reduce cost but also you release the load from downstream resources.

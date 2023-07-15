@@ -5,7 +5,7 @@ createdAt: "2023-07-12"
 tags: ['lambda']
 image: '/images/posts/general/lambda.png'
 ---
-
+## Introduction
 
 With Lambda, you can execute code in response to events or triggers, such as changes to data in an Amazon S3 bucket, updates to a DynamoDB table, or an API Gateway request. One of the key aspects of using Lambda is understanding the different invocation models available and how they can be leveraged to build scalable and efficient serverless applications.
 
@@ -14,7 +14,7 @@ Synchronous invocation is the default invocation model for Lambda functions. In 
 
 ![synchronous-invocation](/images/posts/lambda-invocation-models/synchronous-invocation.png)
 
-#### Key characteristics:
+Key characteristics:
 
 - The client is blocked and waits for the response from the Lambda function.
 - The client needs to handle retries and timeouts in case the Lambda function is unavailable or encounters an error.
@@ -33,7 +33,7 @@ In this model, the client sends a request to the Lambda service but doesn't wait
 ![asynchronous-invocation](/images/posts/lambda-invocation-models/asynchronous-invocation.png)
 
 
-#### Key characteristics:
+Key characteristics:
 
 - The client is not blocked block and can continue with its execution without waiting for the function's processed response.
 - It is well-suited for scenarios where the client doesn't require an immediate response or can handle the response asynchronously.
@@ -54,7 +54,7 @@ In this model, Lambda functions are responsible for polling the event source, pr
 ![poll-based-invocation](/images/posts/lambda-invocation-models/poll-based-invocation.png)
 
 
-#### Key characteristics:
+ Key characteristics:
 - It is particularly useful for scenarios where the scale of Lambda functions, event consumer, may be throttled due to external factors such as third-party API rate limiting. So events can wait in the queue until Lambda functions are available to process them.
 - Lambda functions actively poll the service for new events or records. The polling interval and rate can be configured to match the desired frequency of checking for new data.
 - Lambda functions can retrieve and process the polled events or records in batches.

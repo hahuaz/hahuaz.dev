@@ -5,6 +5,8 @@ createdAt: "2023-07-11"
 tags: ['cdk', 'devops']
 image: '/images/posts/general/aws-codepipeline.jpg'
 ---
+
+## Introduction
 If you're looking to automate your application deployment process,
 then building a CI/CD pipeline is a must. In this blog post, we'll
 walk you through the process of creating a pipeline using AWS CDK
@@ -23,7 +25,7 @@ The app-stack contains all the resources required for our application, and it wi
 
 This approach allows us to automate the entire deployment process of our application and also makes it easier to maintain the infrastructure. Any changes that we make to the application code will be automatically deployed to the cloud using the CodePipeline, and the app-stack will be updated accordingly.
 
-## Diving into infrastructure as code
+## Infrastructure as Code (IaC)
 
 ### CDK Entry Point
 The `cdk-starter.ts` file is the main entry point for defining any CDK App.
@@ -144,7 +146,7 @@ class AppStage extends cdk.Stage {
 - The `application-stack` is added to the pipeline by calling `addStage()` with instances of `AppStage`. If multiple stacks needs to be deployed for the app, `AppStage` can be modified to include those stacks. In our example, we've used only one stack.
 
 
-### Be Notified If Pipeline Fails
+#### Be Notified If Pipeline Fails
 
 Pipeline can fail and you can miss it since you don't check the AWS Console after every code check-in. 
 We will utilize SNS and EventBridge to be paged if something goes wrong.
@@ -220,7 +222,7 @@ export class AppStack extends cdk.Stack {
 
 ```
 
-### Manage Environment Variables
+## Manage Environment Variables
 
 After months of strugles, most convenient way I have found to provide environment variables when working with a CI/CD pipeline is using the `cdk.json` file.
 
@@ -253,7 +255,7 @@ After months of strugles, most convenient way I have found to provide environmen
 - The value of the `BRANCH` key can be used within your CDK app to retrieve the environment variables specific to that stage. This setup allows you to easily group environment variables per stage and have references available when needed for all stages.
 - You shouldn't put sensitive information directly in the file, as it is checked into source control. Instead, write Secret Manager references that can be used at runtime to retrieve the actual secrets.
 
-### Unit Test Example
+## Unit Test Example
 To ensure the existence of the CodeCommit repository and branch specified in the cdk.json file, you can use the AWS SDK and write a test case. Here's an example of how you can implement the test:
 
 ```ts filenme-repo-exists.test.ts
@@ -310,16 +312,16 @@ Finally, see the `app-stack` template on CloudFormation service:
 
 ![aws cloudformation dashboard](/images/posts/building-a-cicd-pipeline-with-aws-cdk/app-stack.png)
 
-### Check-in the Code to Update Resources
+## Check-in the Code to Update Resources
 
 When you need to make changes to the lambda or the infrastructure code, you can simply modify the code and then check it in. Once checked in, the pipeline will detect the changes and automatically run to update the necessary services.
 
-### The Pipeline Itself is Self Mutating
+## The Pipeline Itself is Self Mutating
 
 The pipeline itself is designed to be self-mutating. This means that you can modify the pipeline configuration, and when you check in the updated code, the pipeline will update itself with the new configuration. This allows you to make changes to your deployment process and see the results immediately, without having to manually update the pipeline.
 
 
-### References
+## References
 - https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.pipelines-readme.html
 - https://docs.aws.amazon.com/cdk/v2/guide/cdk_pipeline.html
 - https://aws.amazon.com/blogs/developer/cdk-pipelines-continuous-delivery-for-aws-cdk-applications/
