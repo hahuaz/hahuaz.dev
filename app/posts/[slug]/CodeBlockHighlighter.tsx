@@ -79,12 +79,11 @@ const CodeBlock = (props: any) => {
       <SyntaxHighlighter
         language={language}
         style={codeStyle}
-        customStyle={{
-          marginTop: '0',
-          borderTopLeftRadius: '0',
-        }}
         className={'code '}
         wrapLines={true}
+        customStyle={
+          filename ? { marginTop: '0', borderTopLeftRadius: '0' } : undefined
+        }
       >
         {codeSnippet}
       </SyntaxHighlighter>
