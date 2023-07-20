@@ -10,7 +10,7 @@ export default function ArticleCard({
 }: any) {
   return (
     <>
-      <div className='flex gap-10 items-center py-9'>
+      <div className='flex gap-10 items-center py-9 justify-between'>
         <div>
           <div>
             <span className='text-sm text-github-white-comment mr-2'>
