@@ -1,7 +1,7 @@
 ---
 title: "Lambda Authorizer: A Guide to Secure Your AWS API Gateway"
 summary: "Lambda Authorizer, a serverless function-based authorization method, can secure your API endpoints and control access to your APIs."
-createdAt: "2023-07-15"
+createdAt: "2023-07-20"
 tags: ['cdk', 'lambda']
 image: '/images/posts/general/lambda.png'
 ---
