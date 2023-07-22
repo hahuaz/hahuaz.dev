@@ -48,7 +48,7 @@ export default function Navbar() {
                   />
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/hasan-biyik-51046a116/"
+                  href="https://www.linkedin.com/in/hasanbiyik01/"
                   target="_blank"
                   rel="noreferrer"
                 >
