@@ -1,6 +1,6 @@
-import { getPostMetadata, getPost, slugify } from '@/lib/post';
+import { getPostMetadata, getPost, slugify } from "@/lib/post";
 
-import CodeBlockHighlighter from './CodeBlockHighlighter';
+import CodeBlockHighlighter from "./CodeBlockHighlighter";
 
 export const generateStaticParams = async () => {
   const posts = getPostMetadata();
@@ -18,25 +18,25 @@ const PostPage = ({ params: { slug } }: any) => {
 
   return (
     <>
-      <div className='max-w-screen-xl mx-auto py-9 px-2 flex gap-10'>
-        <main className='max-w-[80ch]'>
-          <div className=''>
-            <span className='text-sm text-github-white-comment'>
+      <div className="mx-auto flex max-w-screen-xl gap-10 px-2 py-9 children:border children:border-red-500">
+        <main className="max-w-[80ch]">
+          <div className="">
+            <span className="text-sm text-github-white-comment">
               {createdAt}
             </span>
-            <h1 className=' text-3xl text-github-white-link pb-2 font-semibold'>
+            <h1 className=" pb-2 text-3xl font-semibold text-github-white-link">
               {title}
             </h1>
           </div>
           <CodeBlockHighlighter content={content} />
         </main>
-        <aside className='sticky self-start top-5 mt-5 text-gray-400 text-sm font-light max-w-[440px]'>
-          <p className='mb-2'>CONTENTS</p>
-          <ul className='border-l border-gray-400'>
+        <aside className="sticky top-5 mt-5 hidden max-w-[440px] self-start text-sm font-light text-gray-400 ">
+          <p className="mb-2">CONTENTS</p>
+          <ul className="border-l border-gray-400">
             {headers.map(({ header, level }, index) => (
               <a key={index} href={`#${slugify(header)}`}>
                 <li
-                  className='mb-1 border-l-2 border-transparent hover:text-sky-400 hover:border-sky-400 hover:font-medium '
+                  className="mb-1 border-l-2 border-transparent hover:border-sky-400 hover:font-medium hover:text-sky-400 "
                   style={{ paddingLeft: `${(level - 1) * 10}px` }}
                 >
                   {header}

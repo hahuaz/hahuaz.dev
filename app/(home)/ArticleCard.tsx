@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function ArticleCard({
   createdAt,
@@ -10,17 +10,17 @@ export default function ArticleCard({
 }: any) {
   return (
     <>
-      <div className='flex gap-10 items-center py-9 justify-between'>
+      <div className="flex items-center justify-between gap-5 py-9 xl:gap-6">
         <div>
           <div>
-            <span className='text-sm text-github-white-comment mr-2'>
+            <span className="mr-2 text-sm text-github-white-comment">
               {createdAt}
             </span>
             {tags.map((tag: string, i: number) => {
               return (
                 <span
                   key={i}
-                  className='mx-1 rounded text-xs px-1 border border-github-white-comment bg-github-gray'
+                  className="mx-1 rounded border border-github-white-comment bg-github-gray px-1 text-xs"
                 >
                   {tag}
                 </span>
@@ -29,22 +29,23 @@ export default function ArticleCard({
           </div>
           <Link
             href={`/posts/${slug}`}
-            className='inline-block text-2xl text-github-white-link'
+            className="inline-block text-2xl text-github-white-link"
           >
             {title}
           </Link>
           <p>{summary}</p>
         </div>
-        <Link href={`/posts/${slug}`} className=''>
-          <div className='h-40 w-40'>
+        <Link href={`/posts/${slug}`} className="">
+          <div className="h-24 w-24  lg:h-32 lg:w-32">
             <img
               src={image}
-              className='rounded-full object-cover h-40 w-40'
+              className="h-full w-full rounded-full object-cover"
+              alt={slug}
             ></img>
           </div>
         </Link>
       </div>
-      <hr className='border-gray-600'></hr>
+      <hr className="border-gray-600"></hr>
     </>
   );
 }

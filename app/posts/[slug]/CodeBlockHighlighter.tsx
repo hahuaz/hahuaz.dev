@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import Markdown from 'markdown-to-jsx';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import Markdown from "markdown-to-jsx";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
   cb as terminalStyle,
   vscDarkPlus as codeStyle,
-} from 'react-syntax-highlighter/dist/esm/styles/prism';
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 
-import styles from './post.module.css';
+import styles from "./post.module.css";
 
 const CodeBlock = (props: any) => {
   // console.log('pre tag:', props);
   const { children } = props;
   // Check if children type is a <code> tag
-  if (children?.type !== 'code') {
+  if (children?.type !== "code") {
     return <pre>{children}</pre>;
   }
 
@@ -26,41 +26,41 @@ const CodeBlock = (props: any) => {
   let filename;
   const definedClassNames = Object.keys(children.props);
   definedClassNames.forEach((key) => {
-    if (key.startsWith('filename-') && definedClassNames.includes('ts')) {
-      filename = key.replace('filename-', '');
+    if (key.startsWith("filename-") && definedClassNames.includes("ts")) {
+      filename = key.replace("filename-", "");
       filename = `${filename}.ts`;
     }
   });
 
   let language;
-  if (className === 'lang-ts') {
-    language = 'typescript';
-  } else if (className === 'lang-js') {
-    language = 'javascript';
-  } else if (className === 'lang-html') {
-    language = 'html';
-  } else if (className === 'lang-css') {
-    language = 'css';
-  } else if (className === 'lang-json') {
-    language = 'json';
+  if (className === "lang-ts") {
+    language = "typescript";
+  } else if (className === "lang-js") {
+    language = "javascript";
+  } else if (className === "lang-html") {
+    language = "html";
+  } else if (className === "lang-css") {
+    language = "css";
+  } else if (className === "lang-json") {
+    language = "json";
   } else {
-    language = 'bash';
+    language = "bash";
   }
 
-  if (language === 'bash') {
+  if (language === "bash") {
     return (
       <>
-        <span className='bg-zinc-700 px-2 py-1 rounded-t-md text-xs inline-block'>
+        <span className="inline-block rounded-t-md bg-zinc-700 px-2 py-1 text-xs">
           terminal
         </span>
         <SyntaxHighlighter
           language={language}
           style={terminalStyle}
           customStyle={{
-            marginTop: '0',
-            borderTopLeftRadius: '0',
+            marginTop: "0",
+            borderTopLeftRadius: "0",
           }}
-          className={'code ' + styles.bash}
+          className={"code " + styles.bash}
           wrapLines={true}
         >
           {codeSnippet}
@@ -72,17 +72,17 @@ const CodeBlock = (props: any) => {
   return (
     <>
       {filename && (
-        <span className='bg-zinc-700 px-2 py-1 rounded-t-md text-xs inline-block'>
+        <span className="inline-block rounded-t-md bg-zinc-700 px-2 py-1 text-xs">
           {filename}
         </span>
       )}
       <SyntaxHighlighter
         language={language}
         style={codeStyle}
-        className={'code '}
+        className={"code "}
         wrapLines={true}
         customStyle={
-          filename ? { marginTop: '0', borderTopLeftRadius: '0' } : undefined
+          filename ? { marginTop: "0", borderTopLeftRadius: "0" } : undefined
         }
       >
         {codeSnippet}
@@ -94,7 +94,7 @@ const CodeBlock = (props: any) => {
 const CodeBlockHighlighter = ({ content }: any) => {
   return (
     <>
-      <article className='prose dark:prose-invert'>
+      <article className="prose dark:prose-invert">
         <Markdown
           options={{
             // override html tag rendering
