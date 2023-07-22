@@ -25,8 +25,8 @@
   width: 5px;
   height: 1rem;
   background: #00b0a0;
-  margin-left: 5px;
-  margin-bottom: -1px;
+  margin-left: 2px;
+  margin-bottom: -2px;
   border-radius: 1px;
   animation: cursor 1s infinite;
 }
@@ -40,5 +40,24 @@
   }
   100% {
     opacity: 0;
+  }
+}
+
+.gradient-animation {
+  animation: gradient-x 5s ease infinite;
+  background-image: linear-gradient(to right, #facc15, #34d399, #0ea5e9);
+  color: transparent;
+}
+
+@keyframes gradient-x {
+  0%,
+  100% {
+    background-position: 0;
+    background-size: 200% 200%;
+  }
+
+  50% {
+    background-position: 100%;
+    background-size: 200% 200%;
   }
 }
