@@ -81,7 +81,6 @@ export default function Navbar() {
         <div>
           <svg
             style={{
-              '-webkit-filter': 'drop-shadow(0 0 20px #3be8b0)',
               filter: 'drop-shadow(0 0 20px #3be8b0)',
             }}
             className='waves block absolute bottom-0 left-0 overflow-hidden'
