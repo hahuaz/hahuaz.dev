@@ -319,5 +319,4 @@ Throughout the process, we emphasized best practices for securing sensitive data
 Finally, we discussed how to handle tasks like database migration by creating a specific task definition dedicated to the migration process. This allowed us to run the migration command against the RDS instance seamlessly and manage the process separately from our main web app tasks.
 
 ## References
-- https://stackoverflow.com/questions/75406805/django-migrations-deployment-strategy-with-aws-ecs-fargate
-- 
+- [django-migrations-deployment-strategy-with-aws-ecs-fargate](https://stackoverflow.com/questions/75406805/django-migrations-deployment-strategy-with-aws-ecs-fargate)
