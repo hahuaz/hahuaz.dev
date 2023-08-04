@@ -3,22 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build && next-sitemap",
-    "start": "next start",
+    "deploy-s3": "aws s3 sync dist s3://prod-hahuaz-sitebucket04cddfa5-e8tpr2nt1u5w --delete --profile hahuaz-root && aws cloudfront create-invalidation --distribution-id EPTRY5QT2FU0V --paths \"/*\" --profile hahuaz-root",
+    "dev": "next dev",
     "lint": "next lint",
-    "deploy-s3": "aws s3 sync dist s3://prod-hahuaz-sitebucket04cddfa5-e8tpr2nt1u5w --delete --profile hahuaz-root && aws cloudfront create-invalidation --distribution-id EPTRY5QT2FU0V --paths \"/*\" --profile hahuaz-root"
+    "start": "next start"
   },
   "dependencies": {
-    "autoprefixer": "10.4.14",
-    "eslint": "8.43.0",
-    "eslint-config-next": "13.4.7",
     "gray-matter": "^4.0.3",
     "markdown-to-jsx": "^7.2.1",
     "next": "13.4.7",
-    "next-sitemap": "^4.1.8",
-    "postcss": "8.4.24",
-    "prettier-plugin-tailwindcss": "^0.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-syntax-highlighter": "^15.5.0",
@@ -30,6 +24,12 @@
     "@types/node": "20.3.2",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
-    "@types/react-syntax-highlighter": "^15.5.7"
+    "@types/react-syntax-highlighter": "^15.5.7",
+    "autoprefixer": "10.4.14",
+    "eslint": "8.43.0",
+    "eslint-config-next": "13.4.7",
+    "next-sitemap": "^4.1.8",
+    "postcss": "8.4.24",
+    "prettier-plugin-tailwindcss": "^0.4.1"
   }
 }
