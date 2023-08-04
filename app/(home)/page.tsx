@@ -13,8 +13,8 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="mx-auto mt-5 grid max-w-screen-xl grid-cols-1 justify-items-center  gap-5 px-2 xl:grid-cols-2 xl:gap-20 xl:px-4 ">
-        <div className=" max-w-2xl ">
+      <div className="mx-auto mt-5 grid max-w-screen-xl grid-cols-1 justify-items-center gap-5 px-2 xl:grid-cols-2 xl:gap-20 xl:px-4 ">
+        <div className="max-w-2xl ">
           {postMetadata.map((post) => (
             <ArticleCard key={post.slug} {...post} />
           ))}
