@@ -16,7 +16,6 @@ const PostPage = ({ params: { slug } }: any) => {
     content,
     headers,
   } = getPost(slug);
-  console.log(headers);
 
   return (
     <>

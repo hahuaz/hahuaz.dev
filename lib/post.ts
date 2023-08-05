@@ -96,7 +96,7 @@ export const getNestedHeaders = (content: string) => {
     }
   }
 
-  console.log(JSON.stringify(headers, null, 2));
+  // console.log(JSON.stringify(headers, null, 2));
 };
 
 export const getFlatHeaders = (content: string) => {

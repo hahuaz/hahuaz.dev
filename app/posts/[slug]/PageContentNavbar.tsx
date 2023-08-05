@@ -19,7 +19,10 @@ export default function PageContentNavbar({ headers }: PageContentNavbarProps) {
 
     const observerCallback = (entries: any) => {
       entries.forEach((entry: any) => {
-        if (entry.isIntersecting) {
+        if (
+          entry.isIntersecting &&
+          !intersectedHeaders.includes(entry.target.id)
+        ) {
           setIntersectedHeaders((draft) => {
             draft.push(entry.target.id);
             return [...draft];
@@ -85,6 +88,9 @@ export default function PageContentNavbar({ headers }: PageContentNavbarProps) {
                 className={
                   "mb-1 block border-l-2 border-transparent hover:border-sky-400 hover:font-medium hover:text-sky-400 "
                 }
+                onClick={() => {
+                  setIntersectedHeaders([slugify(header)]);
+                }}
                 style={{ paddingLeft: `${(level - 1) * 13}px` }}
                 href={`#${slugify(header)}`}
               >
