@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  background-color: theme('colors.github.inactiveBackground');
-  color: theme('colors.github.white.normal');
+  background-color: theme("colors.github.inactiveBackground");
+  color: theme("colors.github.white.normal");
 }
 
 /* modify tailwind */
@@ -19,6 +19,10 @@
 }
 
 /* end of modify tailwind */
+
+aside .active {
+  @apply border-sky-400 font-medium text-sky-400;
+}
 
 .cursor-animation {
   display: inline-block;
