@@ -51,7 +51,7 @@ export default function BlogPosts({
               >
                 {post.title}
               </Link>
-              <p className="mt-1 text-xs font-light md:text-sm">
+              <p className="mt-1 text-xs font-light md:text-base">
                 {truncateSummary(post.summary)}
               </p>
             </div>
