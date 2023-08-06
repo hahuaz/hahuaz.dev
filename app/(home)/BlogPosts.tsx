@@ -72,7 +72,6 @@ export default function BlogPosts({
           <li key={index}>
             <Link
               href={`/?blogs=${index}`}
-              passHref
               className={`ml-0 flex h-12 items-center justify-center  border border-gray-700 px-4 leading-tight text-gray-400 hover:bg-gray-700 hover:text-white ${
                 currentPage === index
                   ? "z-10 border-gray-700 bg-sky-600 px-3 font-semibold leading-tight text-white "
@@ -81,6 +80,7 @@ export default function BlogPosts({
               ${index === 0 ? "rounded-l-lg" : ""}
               ${index === numPages - 1 ? "rounded-r-lg" : ""} 
               `}
+              scroll={false}
             >
               {index + 1}
             </Link>
