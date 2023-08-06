@@ -39,7 +39,7 @@ export default function Navbar() {
                   rel="noreferrer"
                 >
                   <Image
-                    src="/github.svg"
+                    src="/icons/github.svg"
                     alt="Github Logo"
                     className="dark:invert "
                     width={30}
@@ -47,15 +47,30 @@ export default function Navbar() {
                     priority
                   />
                 </a>
+
                 <a
                   href="https://www.linkedin.com/in/hasanbiyik01/"
                   target="_blank"
                   rel="noreferrer"
                 >
                   <Image
-                    src="/linkedin.svg"
+                    src="/icons/linkedin.svg"
                     alt="Linkedin Logo"
                     className="dark:invert   "
+                    width={30}
+                    height={30}
+                    priority
+                  />
+                </a>
+                <a
+                  href="https://www.youtube.com/channel/UCHA7z49F-miB0lWtVBxLy8g"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    src="/icons/icons8-youtube.svg"
+                    alt="Youtube Logo"
+                    className="dark:invert "
                     width={30}
                     height={30}
                     priority
