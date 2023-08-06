@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 :root {
+  --light-blue: #0ea5e9;
+  --light-green: #34d399;
+  --light-yellow: #facc15;
+
   background-color: theme("colors.github.inactiveBackground");
   color: theme("colors.github.white.normal");
 }
@@ -28,7 +32,7 @@ aside .active {
   display: inline-block;
   width: 5px;
   height: 1rem;
-  background: #00b0a0;
+  background: var(--light-blue);
   margin-left: 2px;
   margin-bottom: -2px;
   border-radius: 1px;
@@ -49,7 +53,12 @@ aside .active {
 
 .gradient-animation {
   animation: gradient-x 5s ease infinite;
-  background-image: linear-gradient(to right, #facc15, #34d399, #0ea5e9);
+  background-image: linear-gradient(
+    to right,
+    var(--light-yellow),
+    var(--light-green),
+    var(--light-blue)
+  );
   color: transparent;
 }
 
@@ -63,5 +72,21 @@ aside .active {
   50% {
     background-position: 100%;
     background-size: 200% 200%;
+  }
+}
+
+.gradient-underline {
+  background-image: linear-gradient(
+    120deg,
+    var(--light-green) 0%,
+    var(--light-blue) 100%
+  );
+  background-size: 70% 0.2em;
+  background-repeat: no-repeat;
+  background-position: 0 90%;
+  transition: background-size 0.25s ease-in;
+  &:hover {
+    background-size: 100% 100%;
+    color: black;
   }
 }

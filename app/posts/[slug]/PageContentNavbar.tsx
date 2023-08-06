@@ -80,7 +80,9 @@ export default function PageContentNavbar({ headers }: PageContentNavbarProps) {
   return (
     <>
       <aside className="sticky top-5 mt-5 hidden max-w-[440px] self-start text-sm font-light text-gray-400 lg:block">
-        <p className="mb-2">CONTENTS</p>
+        <p className="mb-2 text-xs font-semibold  text-gray-200">
+          ON THIS PAGE
+        </p>
         <ul className="border-l border-gray-400">
           {headers.map(({ header, level }, index) => (
             <li key={index}>

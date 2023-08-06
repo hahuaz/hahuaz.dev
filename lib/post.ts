@@ -25,7 +25,7 @@ export const getPost = (slug: string) => {
   };
 };
 
-export const getPostMetadata = (): PostMetadata[] => {
+export const getAllPostMetadata = (): PostMetadata[] => {
   const folder = "posts/";
   const files = fs.readdirSync(folder);
   const markdownPosts = files.filter((file) => file.endsWith(".md"));

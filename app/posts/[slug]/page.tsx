@@ -1,10 +1,10 @@
-import { getPostMetadata, getPost } from "@/lib/post";
+import { getAllPostMetadata, getPost } from "@/lib/post";
 
 import CodeBlockHighlighter from "./CodeBlockHighlighter";
 import PageContentNavbar from "./PageContentNavbar";
 
 export const generateStaticParams = async () => {
-  const posts = getPostMetadata();
+  const posts = getAllPostMetadata();
   return posts.map((post) => ({
     slug: post.slug,
   }));

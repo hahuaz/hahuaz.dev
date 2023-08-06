@@ -4,24 +4,28 @@ export const metadata = {
     "Explore my work in software development, web technologies, and programming languages.",
 };
 
-import { getPostMetadata } from "@/lib/post";
-import ArticleCard from "./ArticleCard";
+import { getAllPostMetadata } from "@/lib/post";
+import BlogPosts from "./BlogPosts";
 import FeaturedVideo from "./FeaturedVideo";
 
 const HomePage = () => {
-  const postMetadata = getPostMetadata();
+  const allPostMetadata = getAllPostMetadata();
 
   return (
     <>
-      <div className="mx-auto mt-5 grid max-w-screen-xl grid-cols-1 justify-items-center gap-5 px-2 xl:grid-cols-2 xl:gap-20 xl:px-4 ">
-        <div className="max-w-2xl ">
-          {postMetadata.map((post) => (
-            <ArticleCard key={post.slug} {...post} />
-          ))}
-        </div>
-        <div className=" w-full max-w-2xl">
+      <div className="mx-auto mt-5 max-w-screen-xl  px-2 md:px-0">
+        <section className="mb-36 mt-12 max-w-2xl ">
+          <h2 className="gradient-underline mb-4  inline-block text-4xl font-semibold text-slate-300">
+            Blog Posts
+          </h2>
+          <BlogPosts allPostMetadata={allPostMetadata} />
+        </section>
+        <section className="mb-24 max-w-2xl">
+          <h2 className="gradient-underline mb-4  inline-block text-4xl font-semibold text-slate-300">
+            Featured Video
+          </h2>
           <FeaturedVideo />
-        </div>
+        </section>
       </div>
     </>
   );

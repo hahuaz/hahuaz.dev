@@ -1,13 +1,14 @@
-import './globals.css';
-import { Inter } from 'next/font/google';
-import Navbar from './Navbar';
+import "./globals.css";
+import { Inter } from "next/font/google";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'Hasan Biyik - Portfolio',
+  title: "Hasan Biyik - Portfolio",
   description:
-    'Explore my work in software development, web technologies, and programming languages.',
+    "Explore my work in software development, web technologies, and programming languages.",
 };
 
 export default function RootLayout({
@@ -16,15 +17,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <body className={inter.className}>
         <header>
-          <nav>
-            <Navbar />
-          </nav>
+          <Navbar />
         </header>
         {children}
-        {/* <footer></footer> */}
+        <Footer />
       </body>
     </html>
   );
