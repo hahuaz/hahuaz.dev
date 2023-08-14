@@ -1,52 +1,34 @@
-import * as cdk from 'aws-cdk-lib';
+import * as cdk from "aws-cdk-lib";
 import {
-  aws_s3,
   aws_cloudfront,
   aws_cloudfront_origins,
   aws_certificatemanager,
   aws_route53,
   aws_route53_targets,
-} from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+} from "aws-cdk-lib";
+import { Construct } from "constructs";
 
-import { LambdaConstruct } from './constructs/lambda';
+import { LambdaConstruct } from "./constructs/lambda";
+import { StorageConstruct } from "./constructs/storage";
 
 export class AppStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const branch = this.node.tryGetContext('branch');
-    const { region, DOMAIN_NAME, DOMAIN_CERTIFICATE } =
-      this.node.tryGetContext(branch);
+    const { DOMAIN_NAME, DOMAIN_CERTIFICATE } = process.env;
 
-    const siteBucket = new aws_s3.Bucket(this, 'siteBucket', {
-      websiteIndexDocument: 'index.html',
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-      publicReadAccess: true,
-      blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ACLS,
-      accessControl: aws_s3.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
-    });
+    if (!DOMAIN_NAME || !DOMAIN_CERTIFICATE) {
+      throw new Error("missing env variable.");
+    }
 
-    // CUSTOM CONSTRUCTS
-    // const { sentenceTable, audioBucket, siteBucket, sentenceTableParam } =
-    // new StorageConstruct(this, `storage`, {});
+    const { siteBucket } = new StorageConstruct(this, `storage`, {});
 
-    // lamba, depends on storage
+    // LambdaConstruct depends on StorageConstruct
     const { postMapper } = new LambdaConstruct(this, `lambda`, {});
-
-    // api, depends on lambda
-    // const { api: _api, sentenceProxy: _sentenceProxy } = new ApiConstruct(
-    //   this,
-    //   `api`,
-    //   {
-    //     sentenceProxyFunction,
-    //   }
-    // );
 
     const customCachePolicy = new aws_cloudfront.CachePolicy(
       this,
-      'cachePolicy',
+      "cachePolicy",
       {
         defaultTtl: cdk.Duration.days(0),
         minTtl: cdk.Duration.minutes(0),
@@ -56,7 +38,7 @@ export class AppStack extends cdk.Stack {
 
     const customResponsePolicy = new aws_cloudfront.ResponseHeadersPolicy(
       this,
-      'customResponsePolicy2',
+      "customResponsePolicy2",
       {
         // TODO activate browser cache
         // customHeadersBehavior: {
@@ -69,9 +51,9 @@ export class AppStack extends cdk.Stack {
         //   ],
         // },
         corsBehavior: {
-          accessControlAllowOrigins: ['*'],
-          accessControlAllowMethods: ['HEAD', 'GET', 'OPTIONS'],
-          accessControlAllowHeaders: ['*'],
+          accessControlAllowOrigins: ["*"],
+          accessControlAllowMethods: ["HEAD", "GET", "OPTIONS"],
+          accessControlAllowHeaders: ["*"],
           originOverride: true,
           accessControlAllowCredentials: false,
         },
@@ -82,7 +64,7 @@ export class AppStack extends cdk.Stack {
 
     const siteBucketDist = new aws_cloudfront.Distribution(
       this,
-      'siteBucketDist',
+      "siteBucketDist",
       {
         defaultBehavior: {
           origin: siteBucketOrigin,
@@ -93,7 +75,7 @@ export class AppStack extends cdk.Stack {
           responseHeadersPolicy: customResponsePolicy,
         },
         additionalBehaviors: {
-          'posts/*': {
+          "posts/*": {
             origin: siteBucketOrigin,
             edgeLambdas: [
               {
@@ -107,7 +89,7 @@ export class AppStack extends cdk.Stack {
           {
             httpStatus: 404,
             responseHttpStatus: 200,
-            responsePagePath: '/index.html',
+            responsePagePath: "/index.html",
           },
         ],
         domainNames: [DOMAIN_NAME],
@@ -119,18 +101,18 @@ export class AppStack extends cdk.Stack {
          */
         certificate: aws_certificatemanager.Certificate.fromCertificateArn(
           this,
-          'DOMAIN_CERTIFICATE',
+          "DOMAIN_CERTIFICATE",
           DOMAIN_CERTIFICATE
         ),
       }
     );
 
-    // DNS records of the domain should be configured to point NS of hosted zone.
-    const hostedZone = new aws_route53.PublicHostedZone(this, 'HostedZone', {
+    // NOTE: DNS records of the domain should be configured manually on console to point name servers of hosted zone.
+    const hostedZone = new aws_route53.PublicHostedZone(this, "HostedZone", {
       zoneName: DOMAIN_NAME,
     });
 
-    const aliasRecord = new aws_route53.ARecord(this, 'AliasRecord', {
+    const aliasRecord = new aws_route53.ARecord(this, "AliasRecord", {
       zone: hostedZone,
       recordName: DOMAIN_NAME,
       target: aws_route53.RecordTarget.fromAlias(
@@ -139,13 +121,13 @@ export class AppStack extends cdk.Stack {
     });
 
     // CFN OUTPUTS
-    new cdk.CfnOutput(this, 'siteBucketUrl', {
+    new cdk.CfnOutput(this, "siteBucketUrl", {
       value: siteBucket.s3UrlForObject(),
-      description: 'The siteBucket S3 URL',
+      description: "The siteBucket S3 URL",
     });
-    new cdk.CfnOutput(this, 'siteBucketDistDomain', {
+    new cdk.CfnOutput(this, "siteBucketDistDomain", {
       value: siteBucketDist.distributionDomainName,
-      description: 'The domain name of siteBucketDist',
+      description: "The domain name of siteBucketDist",
     });
   }
 }

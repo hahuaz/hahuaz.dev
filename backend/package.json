@@ -9,12 +9,14 @@
     "watch": "tsc -w",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit",
     "lint": "eslint . --ext js,jsx,ts,tsx --fix",
-    "cdk-watch": "cdk watch PROD-hahuaz --hotswap-fallback --logs --profile hahuaz-root",
-    "cdk-deploy": "cdk deploy --profile hahuaz-root"
+    "cdk-deploy": "npx cdk deploy --profile hahuaz-root",
+    "cdk-list": "npx cdk ls",
+    "cdk-watch": "npx cdk watch PROD-hahuaz --hotswap-fallback --logs --profile hahuaz-root"
   },
   "dependencies": {
     "aws-cdk-lib": "^2.41.0",
     "constructs": "^10.1.98",
+    "dotenv": "^16.3.1",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {

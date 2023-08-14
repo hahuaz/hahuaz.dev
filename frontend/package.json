@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build && next-sitemap",
-    "deploy-s3": "aws s3 sync dist s3://prod-hahuaz-sitebucket04cddfa5-e8tpr2nt1u5w --delete --profile hahuaz-root && aws cloudfront create-invalidation --distribution-id EPTRY5QT2FU0V --paths \"/*\" --profile hahuaz-root",
+    "deploy-s3": "aws s3 sync dist s3://prod-hahuaz-storagesitebucket0e9c51b8-y0yc8nvd0xds --delete --profile hahuaz-root && aws cloudfront create-invalidation --distribution-id EPTRY5QT2FU0V --paths \"/*\" --profile hahuaz-root",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start"
