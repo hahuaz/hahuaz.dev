@@ -1,0 +1,26 @@
+{
+  "app": "npx ts-node --prefer-ts-exts bin/cdk-starter.ts",
+  "watch": {
+    "include": ["**"],
+    "exclude": [
+      "README.md",
+      "cdk*.json",
+      "**/*.d.ts",
+      "tsconfig.json",
+      "package*.json",
+      "yarn.lock",
+      "node_modules",
+      "test"
+    ]
+  },
+  "context": {
+    "branch": "PROD",
+    "PROD": {
+      "account": "725077116981",
+      "region": "us-east-1",
+      "appName": "hahuaz",
+      "DOMAIN_NAME": "hahuaz.dev",
+      "DOMAIN_CERTIFICATE": "arn:aws:acm:us-east-1:725077116981:certificate/a9592cdd-8916-46b0-acc6-277af66062c9"
+    }
+  }
+}
