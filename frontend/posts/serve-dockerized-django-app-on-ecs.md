@@ -57,7 +57,7 @@ In this scenario, you would need to explore workarounds or modify your applicati
 ### Store construct
 Store construct will provision RDS instance and new secret in Secret Manger service.
 
-```ts filename-store.ts
+```ts filename-store
 export class StoreConstruct extends Construct {
   public readonly rdsCredentials: aws_secretsmanager.Secret;
   public readonly rdsInstance: aws_rds.DatabaseInstance;
@@ -149,7 +149,7 @@ I will digest every resource and only show related IaC but you can found intact 
 #### Web app task definition
 We kick off by creating task definition for our web app and add a container to it. 
 
-```ts filename-compute.ts
+```ts filename-compute
 // create webApp def
 const webAppDef = new ecs.FargateTaskDefinition(this, 'webAppDef', {
   memoryLimitMiB: 512,
@@ -195,7 +195,7 @@ DB_NAME	valueFrom  arn:aws:secretsmanager:us-west-2:accountID:secret:storerdsCre
 
 The created task will be launched with Fargete service.
 
-```ts filename-compute.ts
+```ts filename-compute
 const fargateSG = new ec2.SecurityGroup(this, 'fargateSG', {
   vpc,
 });
@@ -232,7 +232,7 @@ However, when assignPublicIp is set to false, the Fargate tasks are only given p
 
 ALB will manage incoming traffics and distribute them among the multiple containers running your web application.
 
-```ts filename-compute.ts
+```ts filename-compute
 const lb = new elbv2.ApplicationLoadBalancer(this, 'LB', {
   vpc,
   internetFacing: true,
@@ -264,7 +264,7 @@ webService.registerLoadBalancerTargets({
 Often you need to run migrate command against your RDS instance while integrating new features on Django web app.
 We can define new task definition for this process. It can be executed manually on AWS ECS Console and terminated after migration is completed. 
 
-```ts filename-compute.ts
+```ts filename-compute
 // create migration def
 const migrateDef = new ecs.FargateTaskDefinition(this, 'migrateDef', {
   memoryLimitMiB: 512,

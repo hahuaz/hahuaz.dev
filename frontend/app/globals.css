@@ -12,11 +12,9 @@
 }
 
 /* modify tailwind */
-/* .prose :where(pre:has(> div.code)) {
-  background-color: unset !important;
-  padding: unset !important;
-  border-radius: unset !important;
-} */
+.prose :where(pre:has(> code)) {
+  margin: 0 !important;
+}
 
 .prose {
   max-width: 80ch;

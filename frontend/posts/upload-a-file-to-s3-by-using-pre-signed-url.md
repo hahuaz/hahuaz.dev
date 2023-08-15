@@ -38,7 +38,7 @@ cdk init app --language typescript
 ```
 Head over your CDK starter file that is in the "bin" directory and populate it with your environment variables.
 
-```ts
+```ts filename-cdk-starter
 new DeploySpaToAwsStack(app, 'DeploySpaToAwsStack', {
   env: { account: process.env.AWS_ACCOUNT, region: process.env.AWS_REGION },
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
@@ -61,10 +61,10 @@ following in the terminal:
 ![deploy-success](/images/posts/deploy-spa-to-aws/deploy-success.png)
 
 
-### S3 bucket to store files:
+### S3 bucket to store files
 S3 bucket will be used to store the user uploaded assets.
   
-```ts filename-storage.ts
+```ts filename-storage
 this.myBucket = new aws_s3.Bucket(this, "my-bucket", {
   publicReadAccess: true,
   blockPublicAccess: new aws_s3.BlockPublicAccess({
@@ -93,10 +93,10 @@ this.myBucket = new aws_s3.Bucket(this, "my-bucket", {
 - We mark the bucket as public.
 - We also enable CORS to see the response of upload request in browser. 
 
-### Lambda to produce pre-signed URL:
+### Lambda to produce pre-signed URL
 Lambda will produce pre-signed URL which will be used as endpoint by the client to upload file.
   
-```ts filename-lambda.ts
+```ts filename-lambda
 this.signedUrlCreator = new NodejsFunction(this, "signed-url-creator", {
   memorySize: 128,
   timeout: cdk.Duration.seconds(5),
@@ -124,9 +124,9 @@ new CfnOutput(this, "signedUrlCreatorUrl.url", {
 - We're creating Lambda URL that is accessible via public Internet.
 - I want to emphasize the importance of keeping the lambda timeout low here. Once lambda is called, its process can't be stopped manually by an outside force. It can run up to 15 minutes until it's forced to time out. If your code includes a loop make sure it's not infinite, especially if it creates a resource in the cloud.
 
-## Lambda handler code:
+## Lambda handler
 
-```ts filename-signed-url-creator.ts
+```ts filename-signed-url-creator
 import { randomUUID } from "crypto";
 
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
@@ -215,8 +215,7 @@ That's all for backend operations. Let's create our humble client.
 
 The Client will receive the file by simple HTML tag. In our case, file type is media but same process applies to every type.
 
-### index.html
-```html 
+```html  filename-index
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -237,9 +236,8 @@ The Client will receive the file by simple HTML tag. In our case, file type is m
 ```
 - You can enforce the media type by changing value of accept attribute on the input tag.
 
-### upload-s3.js:
-  
-```js filename-upload-s3.js
+
+```js filename-upload-s3
 const lambdaUrl =
   'https://s4kb7k5iws4reilkmx4g6nqwfe0ahnmk.lambda-url.us-west-2.on.aws/';
 

@@ -17,7 +17,7 @@ To address this challenge, we will use a feature called "Request Validation" for
 ### 1. Define Schema
 Start by defining request models or schemas using JSON Schema Draft 4. These models act as blueprints for validating incoming requests. They specify the structure, data types, and other constraints for the request payload.
 
-```ts filename-app.ts
+```ts filename-app-stack
 this.api = new aws_apigateway.RestApi(this, 'rest');
 
 const requestModel = this.api.addModel('RequestModel', {
@@ -58,7 +58,7 @@ const requestModel = this.api.addModel('RequestModel', {
 ### 2. Enable the validation on method
 Enable request validation on your API Gateway by associating the request models with the corresponding methods or resources. This ensures that all incoming requests are validated against the defined models.
 
-```ts filename-app.ts
+```ts filename-app-stack
 // Enable request validation for the API methods
 const testResource = this.api.root.addResource('test');
 const testPost = testResource.addMethod(

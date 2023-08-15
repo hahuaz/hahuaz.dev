@@ -30,7 +30,7 @@ This approach allows us to automate the entire deployment process of our applica
 ### CDK Entry Point
 The `cdk-starter.ts` file is the main entry point for defining any CDK App.
 
-```ts filename-cdk-starter.ts
+```ts filename-cdk-starter
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
@@ -55,7 +55,7 @@ new PipelineStack(app, `${BRANCH}-${APP_NAME}-pipelineStack`, {
 
 The `pipeline-stack` is responsible for deploying the `app-stack` after it has been initialized. It also automatically deploys the stack every time there is a code check-in. This ensures that the latest version of the application is always deployed and available.
 
-```ts filename-pipeline-stack.ts
+```ts filename-pipeline-stack
 import * as cdk from 'aws-cdk-lib';
 import {
   pipelines,
@@ -151,7 +151,7 @@ class AppStage extends cdk.Stage {
 Pipeline can fail and you can miss it since you don't check the AWS Console after every code check-in. 
 We will utilize SNS and EventBridge to be paged if something goes wrong.
 
-```ts filename-pipeline-stack.ts
+```ts filename-pipeline-stack
 // Notify if pipeline fails
 const failTopic = new aws_sns.Topic(this, 'PipelineFailTopic');
 
@@ -187,7 +187,7 @@ failEvent.addTarget(
 The `app-stack` is responsible for provisining the resources our app requires.
 
 
-```ts filename-app-stack.ts
+```ts filename-app-stack
 import * as path from 'path';
 
 import * as cdk from 'aws-cdk-lib';
@@ -258,7 +258,7 @@ After months of strugles, most convenient way I have found to provide environmen
 ## Unit Test Example
 To ensure the existence of the CodeCommit repository and branch specified in the cdk.json file, you can use the AWS SDK and write a test case. Here's an example of how you can implement the test:
 
-```ts filenme-repo-exists.test.ts
+```ts filenme-repo-exists.test
 import fs from 'fs';
 import { CodeCommit } from 'aws-sdk';
 

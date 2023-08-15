@@ -32,7 +32,7 @@ In summary, the pipeline is triggered by CodeCommit events, build artifacts are 
 
 ### Compute construct
 
-```ts filename-compute.ts
+```ts filename-compute
 export class ComputeConstruct extends Construct {
   public readonly vpc: ec2.Vpc;
   public readonly autoScalingGroup: autoscaling.AutoScalingGroup;
@@ -108,7 +108,7 @@ export class ComputeConstruct extends Construct {
 
 First, let me present the complete file with all the services included, and afterward, I will try to explain every service the best way I can.
 
-```ts filename-app-stack.ts
+```ts filename-app-stack
 export default class AppStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -217,7 +217,7 @@ export default class AppStack extends cdk.Stack {
 
 The pipeline will consist of three stages, each encompassing essential action: source code commit, build artifact generation, and application deployment.
 
-```ts 
+```ts filename-app-stack
 const sourceArtifact = new codepipeline.Artifact('sourceArtifact');
 const buildArtifact = new codepipeline.Artifact('buildArtifact');
 new codepipeline.Pipeline(this, 'MyPipeline', {
@@ -273,7 +273,7 @@ new codepipeline.Pipeline(this, 'MyPipeline', {
 
 #### CodeBuild service
 
-```ts
+```ts filename-app-stack
 const codeBuildProject = new codebuild.Project(this, 'MyProject', {
   role: new cdk.aws_iam.Role(this, 'codebuildRole', {
     assumedBy: new cdk.aws_iam.ServicePrincipal('codebuild.amazonaws.com'),
@@ -329,7 +329,7 @@ artifacts:
 
 #### CodeDeploy service
 
-```ts
+```ts filename-app-stack
 const codeDeploymentGroup = new codedeploy.ServerDeploymentGroup(
   this,
   'DeployGroup',
@@ -357,16 +357,10 @@ const codeDeploymentGroup = new codedeploy.ServerDeploymentGroup(
 ```
 - CodeDeploy can be used for the three deployment types: Lambda, ECS and EC2/on-premise. We are using `ServerApplication` class to deploy into EC2 instance.
 - The `autoScalingGroups` prop is where you pass array of auto scaling groups and all the EC2 instances that deployed by these groups will be target for the web app deployment.
-- Setting the `installAgent` to true installs code deploy agent to your EC2 instances. You can see its status via ssh-ing into your instance and running:
-
-```bash
-sudo service codedeploy-agent status
-```
-- If you end up having errors on CodeDeploy service you should look at the logs and they can be found through:
-
-```python
-cat opt/codedeploy-agent/deployment-root/deployment-logs/codedeploy-agent-deployments.log
-```
+- Setting the `installAgent` to true installs code deploy agent to your EC2 instances. You can see its status via ssh-ing into your instance and running:   
+  `sudo service codedeploy-agent status`
+- If you end up having errors on CodeDeploy service you should look at the logs and they can be found through:    
+  `cat opt/codedeploy-agent/deployment-root/deployment-logs/codedeploy-agent-deployments.log`
 
 - Even though `appspec.yml` file is not presented on CodeDeploy config, it will be used as specification file for the deployment process. It should be included in the `buildArtifact` hence it resides on the `/frontend` directory. If we look at the content of file:
  

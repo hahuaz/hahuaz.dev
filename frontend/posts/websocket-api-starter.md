@@ -32,7 +32,7 @@ REST APIs can leverage caching mechanisms at various levels, such as caching res
 
 ## Infrastructure as Code (IaC)
 
-```ts filename-app-stack.ts
+```ts filename-app-stack
 import * as cdk from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
@@ -79,7 +79,7 @@ export default class AppStack extends cdk.Stack {
   The `ApiConstruct` depens on the `LambdaConstruct` and the `LambdaConstruct` depens on `StorageConstruct`.
   I always keep this initialization order on my CDK apps. This is the most comfortable way for me to reference my resources with each other.
 
-```ts filename-storage.ts
+```ts filename-storage
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { aws_dynamodb } from 'aws-cdk-lib';
@@ -107,7 +107,7 @@ export class StorageConstruct extends Construct {
 ```
 - Storage construct is straightforward and only creates the connectionTable.
 
-```ts filename-lambda.ts
+```ts filename-lambda
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { aws_lambda, aws_iam } from 'aws-cdk-lib';
@@ -167,7 +167,7 @@ export class LambdaConstruct extends Construct {
 - Lambda construct provision two Lambda resource. Both of them have read and write permission on the connectionTable
 - We also grant `AmazonAPIGatewayInvokeFullAccess` on messageHandler lambda since it will broad cast the message to all clients by utilizing API Gateway SDK. 
 
-```ts filename-api.ts
+```ts filename-api
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
@@ -237,7 +237,7 @@ export class ApiConstruct extends Construct {
 
 ## Lambda Handlers
 
-```ts filename-connection-handler.ts
+```ts filename-connection-handler
 import * as AWS from 'aws-sdk';
 import {
   APIGatewayProxyWebsocketEventV2WithRequestContext,
@@ -301,7 +301,7 @@ const deleteConnectionId = async (connectionId: string): Promise<void> => {
 - The connectionHandler has straightforward job, save the connection ID and return 200 status code.
 - Returning status code 200 is important because it instructs API Gateway that the app successfully handled the incomming connection request and connection should be establised with the client.
 
-```ts filename-message-handler.ts
+```ts filename-message-handler
 import * as AWS from 'aws-sdk';
 import {
   APIGatewayProxyWebsocketEventV2WithRequestContext,

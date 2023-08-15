@@ -24,7 +24,7 @@ API Gateway custom domain will act as reverse proxy and forward the request to a
 
 ## Infrastructure as Code (IaC)
 
-```ts filename-cdk-starter.ts
+```ts filename-cdk-starter
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
@@ -55,7 +55,7 @@ microserviceStack.addDependency(appStack);
 
 <br />
 
-```ts filename-app-stack.ts
+```ts filename-app-stack
 import * as cdk from 'aws-cdk-lib';
 import {
   aws_apigateway,
@@ -122,7 +122,7 @@ It's important to note that when designing the AJAX process flow, avoid introduc
 
 <br />
 
-```ts filename-order-microservice-stack.ts
+```ts filename-order-microservice-stack
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { aws_lambda, aws_apigateway } from 'aws-cdk-lib';

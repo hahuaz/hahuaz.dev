@@ -16,7 +16,7 @@ npx cdk init app --language typescript
 
 Add following code snippet to your stack:
 
-```ts filename-app-stack.ts
+```ts filename-app-stack
 const mybucket = new aws_s3.Bucket(this, 'mybucket2', {
   publicReadAccess: true,
   removalPolicy: cdk.RemovalPolicy.DESTROY,
@@ -38,7 +38,7 @@ You can read their blog post in [here](https://aws.amazon.com/about-aws/whats-ne
 
 We configure the Block Public Access settings on bucket level by adding blockPublicAccess prop. 
 
-```ts filename-app-stack.ts
+```ts filename-app-stack
 const mybucket = new aws_s3.Bucket(this, 'mybucket2', {
   publicReadAccess: true,
   blockPublicAccess: new aws_s3.BlockPublicAccess({

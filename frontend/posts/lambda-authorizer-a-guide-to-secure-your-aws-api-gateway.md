@@ -71,7 +71,7 @@ export class LambdaConstruct extends Construct {
 
 Whole Api construct code is shown below but we also try to explain what every resource does.
 
-```ts filename-api.ts
+```ts filename-api
 export class ApiConstruct extends Construct {
   public readonly restApi: aws_apigateway.RestApi;
 
@@ -194,7 +194,7 @@ this.restApi.root.addProxy({
 
 ### Lambda handlers
 
-```ts filename-hello-world.ts
+```ts filename-hello-world
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 
 export const handler = async function (
@@ -216,7 +216,7 @@ export const handler = async function (
 
 <hr />
 
-```ts filename-lambda-authorizer.ts
+```ts filename-lambda-authorizer
 import {
   APIGatewayTokenAuthorizerEvent,
   APIGatewayAuthorizerResult,

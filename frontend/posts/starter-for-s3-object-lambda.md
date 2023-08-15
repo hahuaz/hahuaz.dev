@@ -23,7 +23,7 @@ The provided [repository](https://github.com/hahuaz/cdk-examples/tree/dev/s3-obj
 
 Give necessary permissions to the Lambda:
 
-```ts filename-app-stack.ts
+```ts filename-app-stack
 // Allow lambda to read and write to access point
 thumbnailCreator.addToRolePolicy(
   new aws_iam.PolicyStatement({
@@ -39,7 +39,7 @@ thumbnailCreator.addToRolePolicy(
 
 Create S3 Access Point and associate it with the Lambda:
 
-```ts filename-app-stack.ts
+```ts filename-app-stack
 // Create S3 access point
 const s3AccessPoint = new aws_s3.CfnAccessPoint(this, 's3AccessPoint', {
   bucket: mybucket.bucketName,
@@ -71,7 +71,7 @@ const objectLambdaAccessPoint = new aws_s3objectlambda.CfnAccessPoint(
 - The aws_s3.CfnAccessPoint configuration also accepts `policy` prop to define IAM policy on the Access Point but I found defining the permission policies on the Lambda more intuitive.
 
 ## Lambda handlers
-```ts filename-thumbnail-creator.ts
+```ts filename-thumbnail-creator
 import * as AWS from 'aws-sdk';
 import axios from 'axios';
 import sharp from 'sharp';
