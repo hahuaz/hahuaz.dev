@@ -1,48 +1,42 @@
 ---
-title: "Upload a file to S3 by using signed URL"
-summary: "Pre-signed URL can be used by clients to upload a file to an S3 bucket, without requiring the client to have AWS credentials or permission."
-createdAt: "2023-01-22"
+title: "Upload a file to S3 by using pre-signed URL"
+summary: "Pre-signed URL can be used by clients to upload a file to an S3 bucket, without requiring the client to have AWS credentials."
+createdAt: "2023-08-16"
 tags: ['cdk', 's3']
 image: '/images/posts/upload-a-file-to-s3-by-using-signed-url/upload.png'
 ---
-Pre-signed URL can be used by clients to upload a file to an S3
-bucket, without requiring the client to have AWS credentials or
-permission.   
-This is made possible by the fact that the pre-signed URL includes a
-signature that is generated using the AWS credentials in the
-backend. This signature acts as a form of authentication, allowing
-the client to upload the file to the specified S3 bucket without
-needing to provide their own AWS credentials.   
-This is particularly useful in situations where it is not practical
-or secure to provide clients with direct access to an S3 bucket. For
-example, if a website allows users to upload images, it would not be
-secure to provide each user with their own AWS credentials.
-Using a pre-signed URL also enables the developer to set the
-expiration time, which means that the URL will only be valid for a
-certain period of time. This ensures that the client can only upload
-the file within the specified time frame, and prevents the URL from
-being used after the expiration time.
 
-### What will we be doing?
+The completed project can be found [here](https://github.com/hahuaz/cdk-examples/tree/dev/s3-pre-signed-url-file-upload).
 
-We will create a CDK app that deploys an S3 bucket and lambda that
-generates pre-signed URL. The CDK app will use [Lambda URLs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-urls.html) instead of API Gateway to keep the infrastructure as simple as possible.
-Then we will create simple client that uploads a media file (mp4) to
-our S3 bucket. The completed project can be found [here](https://github.com/hahuaz/cdk-examples/tree/dev/s3-signed-url-file-upload).
+## Introduction
 
-### Prerequisites
+Pre-signed URL can be used by clients to upload a file to an S3 bucket, without requiring the client to have AWS credentials or permission.   
+This is made possible by the fact that the pre-signed URL includes a signature that is generated using the AWS credentials in the backend. This signature acts as a form of authentication allowing the client to upload the file to the specified S3 bucket without needing to provide their own AWS credentials.   
+This is particularly useful in situations where it is not practical or secure to provide clients with direct access to an S3 bucket. 
+For example, if a website allows users to upload images, it would not be secure to provide each user with their own AWS credentials.
+Using a pre-signed URL also enables the developer to set the expiration time, which means that the URL will only be valid for a certain period of time.
+This ensures that the client can only upload the file within the specified time frame, and prevents the URL from being used after the expiration time.
+
+## What will we be doing?
+
+We will create a CDK app that provision an S3 bucket and lambda that generates pre-signed URL. The CDK app will use [Lambda URLs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-urls.html) instead of API Gateway to keep the infrastructure as simple as possible.
+Then we will create simple client that uploads a media file (mp4) to our S3 bucket. 
+
+
+Flow will be as following: First, the client will hit Lambda for pre-signed URL. Once the client has this URL, it will directly talk to the S3 API to upload the file exactly where it needs to be without needing any middleman. This makes things faster and simpler, as the client and S3 can interact directly. No need for extra servers in between!
+
+## Prerequisites
 
 - Having [AWS CLI](https://aws.amazon.com/cli/) and [AWS CDK CLI](https://docs.aws.amazon.com/cdk/v2/guide/cli.html) installed on your machine and being familiar with them.
 
-### Start a new CDK project
+## Infrastructure as Code
 
-Open up your terminal in empty directory and execute:
+First we need to create a CDK app. Open up your terminal in empty directory and execute:
 
 ```bash
 cdk init app --language typescript
 ```
-            Head over your CDK starter file that is in the "bin" directory and
-            populate it with your environment variables.
+Head over your CDK starter file that is in the "bin" directory and populate it with your environment variables.
 
 ```ts
 new DeploySpaToAwsStack(app, 'DeploySpaToAwsStack', {
@@ -51,7 +45,7 @@ new DeploySpaToAwsStack(app, 'DeploySpaToAwsStack', {
 });
 ```
 <p>
-Deploy empty stack to your account but first you need to configure
+Deploy empty CDK stack to your account but first you need to configure
 your AWS CLI to work with profiles. Learn more about named profiles
 in [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html).
 </p>
@@ -66,22 +60,28 @@ following in the terminal:
 </p>
 ![deploy-success](/images/posts/deploy-spa-to-aws/deploy-success.png)
 
-### Create services in CDK app
 
-#### Create S3 bucket to store files:
+### S3 bucket to store files:
+S3 bucket will be used to store the user uploaded assets.
   
-```ts
-this.myBucket = new aws_s3.Bucket(this, 'my-bucket', {
+```ts filename-storage.ts
+this.myBucket = new aws_s3.Bucket(this, "my-bucket", {
   publicReadAccess: true,
+  blockPublicAccess: new aws_s3.BlockPublicAccess({
+    blockPublicPolicy: false,
+    restrictPublicBuckets: false,
+    blockPublicAcls: true,
+    ignorePublicAcls: true,
+  }),
   cors: [
     {
-      allowedOrigins: ['*'],
+      allowedOrigins: ["*"],
       allowedMethods: [
         aws_s3.HttpMethods.GET,
         aws_s3.HttpMethods.HEAD,
         aws_s3.HttpMethods.POST,
       ],
-      allowedHeaders: ['*'],
+      allowedHeaders: ["*"],
     },
   ],
   removalPolicy: cdk.RemovalPolicy.DESTROY,
@@ -90,20 +90,20 @@ this.myBucket = new aws_s3.Bucket(this, 'my-bucket', {
 
 ```
 
-- We mark the bucket as public. Thanks to CDK, it can be done by single prop but I encourage you to check this [document](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteAccessPermissionsReqd.html).
-- We are also enabling CORS to see the response of upload request in browser.
+- We mark the bucket as public.
+- We also enable CORS to see the response of upload request in browser. 
 
-#### Create a Lambda resource that will be used to produce pre-signed URL:
+### Lambda to produce pre-signed URL:
+Lambda will produce pre-signed URL which will be used as endpoint by the client to upload file.
   
-```ts
-this.signedUrlCreator = new NodejsFunction(this, 'signed-url-creator', {
+```ts filename-lambda.ts
+this.signedUrlCreator = new NodejsFunction(this, "signed-url-creator", {
   memorySize: 128,
   timeout: cdk.Duration.seconds(5),
   runtime: aws_lambda.Runtime.NODEJS_18_X,
-  handler: 'handler',
-  entry: path.join(__dirname, '/../../lambdas/signed-url-creator.ts'),
+  handler: "handler",
+  entry: path.join(__dirname, `/../../lambdas/signed-url-creator/index.ts`),
   environment: {
-    APP_REGION,
     MY_BUCKET_NAME: MY_BUCKET.bucketName,
   },
 });
@@ -115,22 +115,22 @@ const signedUrlCreatorUrl = this.signedUrlCreator.addFunctionUrl({
 });
 
 // CFN OUTPUTS
-new CfnOutput(this, 'sentenceAudioCreatorFunctionUrl', {
+new CfnOutput(this, "signedUrlCreatorUrl.url", {
   value: signedUrlCreatorUrl.url,
 });
 
 ```
-- The lambda needs write permission to the bucket to be able to create pre-signed URL. Line 13 does that for us.
+- The lambda needs write permission to the bucket to be able to create pre-signed URL. We are utilizing `grantWrite()` on the created bucket for this.
 - We're creating Lambda URL that is accessible via public Internet.
 - I want to emphasize the importance of keeping the lambda timeout low here. Once lambda is called, its process can't be stopped manually by an outside force. It can run up to 15 minutes until it's forced to time out. If your code includes a loop make sure it's not infinite, especially if it creates a resource in the cloud.
 
-#### Create the Lambda handler code:
+## Lambda handler code:
 
-```ts
-import { randomUUID } from 'crypto';
+```ts filename-signed-url-creator.ts
+import { randomUUID } from "crypto";
 
-import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
-import { S3 } from 'aws-sdk';
+import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
+import { S3 } from "aws-sdk";
 
 const { APP_REGION, MY_BUCKET_NAME } = process.env;
 
@@ -141,20 +141,20 @@ const s3 = new S3({
 export const handler = async function (
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
-  console.log('INCOMING_EVENT', event);
+  console.log("INCOMING_EVENT\n", event);
 
-  const directory = 'assets2023';
-  const fileExtension = '.mp4';
+  const directory = "client01";
+  const fileExtension = ".mp4";
   const unixTime = Date.now();
-  const s3Key = \`\${directory}/\${unixTime}-\${randomUUID()}\${fileExtension}\`;
+  const s3Key = `${directory}/${unixTime}-${randomUUID()}${fileExtension}`;
   const URL_EXPIRATION_SECONDS = 300;
 
   const presignedPostParams: S3.PresignedPost.Params = {
     Bucket: MY_BUCKET_NAME,
     Expires: URL_EXPIRATION_SECONDS,
     Conditions: [
-      ['content-length-range', 0, 104857600],
-      ['starts-with', '$key', directory],
+      ["content-length-range", 0, 104857600],
+      ["starts-with", "$key", directory],
     ],
     Fields: {
       key: s3Key,
@@ -166,19 +166,19 @@ export const handler = async function (
   return {
     statusCode: 200,
     headers: {
-      'access-control-allow-origin': '*',
-      'Cache-Control': 'no-store',
+      "access-control-allow-origin": "*",
+      "Cache-Control": "no-store",
     },
     body: JSON.stringify({ presignedPost }),
   };
 };
-  
-  ```
-- We will use [createPresignedPost](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#createPresignedPost-property) method of S3 class. It's a synchronous call.
-- Every key (file name) in the bucket needs to be unique. We can use core "crypto" module for that. We can also mock directory structure in AWS Console by using forward slash (/) in our key but keep in mind it is just for convenience on the console. There is no directory concept on S3.
-- We're also forcing content length of the file that client can upload. Content length and expiration time are important params for security.
 
-Deploy the stack again to create defined resources:
+```
+- We are using [createPresignedPost()](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#createPresignedPost-property) method to create pre-signed URL. It's a synchronous call. The `Fields` parameter is an essential part of this process, and it contains specific information that the client must provide when making a request to upload a file to the S3 bucket. The `key: s3Key` field specifies the path of the file within the S3 bucket where the client must upload the file. So, when the client uses the generated pre-signed URL to upload a file, it needs to include these Fields in its request so that S3 can understand where to save the uploaded file.
+- Every key (file name) in the bucket needs to be unique. We can use core "crypto" module for that. We can also mock directory structure in AWS Console by using forward slash (/) in our key but keep in mind it is just for convenience on the console. There is no directory concept on S3.
+- We're also limiting the content length of the file that client can upload. Content length and expiration time are important params for security.
+
+Deploy the stack again to provision defined resources:
 
 ```bash
 cdk deploy --profile <yours>
@@ -192,7 +192,7 @@ cdk deploy --profile <yours>
 {
   "url": "https://s3.us-west-2.amazonaws.com/hahuaz-cdk-examples-storagemybucket896a2e28-3k88jwzetxk0",
   "fields": {
-    "key": "assets2023/1674368848514-865ed21b-572a-4df4-9ee4-c1513f3cb68f.mp4",
+    "key": "client01/1674368848514-865ed21b-572a-4df4-9ee4-c1513f3cb68f.mp4",
     "bucket": "hahuaz-cdk-examples-storagemybucket896a2e28-3k88jwzetxk0",
     "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
     "X-Amz-Credential": "ASIA2RUPWZA266XF5E6Y/20230122/us-west-2/s3/aws4_request",
@@ -208,18 +208,16 @@ cdk deploy --profile <yours>
 2. The "fields" object holds all the values that needs to be appended to the form.
 
 <p>
-That's all for backend operations. Let's create our humble client side code.
+That's all for backend operations. Let's create our humble client.
 </p>
 
-### The humble client
+## The humble client
 
-Client will receive the file by simple HTML tag. In our case, file type is media but same process applies to every type.
-Then we will send the file to S3 by making an ajax request to S3.
+The Client will receive the file by simple HTML tag. In our case, file type is media but same process applies to every type.
 
-#### index.html code:
-  
-```html
-  <!DOCTYPE html>
+### index.html
+```html 
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -237,12 +235,11 @@ Then we will send the file to S3 by making an ajax request to S3.
   </body>
 </html>
 ```
-
 - You can enforce the media type by changing value of accept attribute on the input tag.
 
-#### upload-s3 dot js code:
+### upload-s3.js:
   
-  ```js
+```js filename-upload-s3.js
 const lambdaUrl =
   'https://s4kb7k5iws4reilkmx4g6nqwfe0ahnmk.lambda-url.us-west-2.on.aws/';
 
@@ -270,7 +267,7 @@ const uploadFile = async (e) => {
   if (uploadResponse.status === 204) {
     console.log(uploadResponse);
   } else {
-    console.log('ERROR,upload failed!');
+    console.log('upload failed!');
   }
 };
 
@@ -279,10 +276,10 @@ document.querySelector('#upload-button').addEventListener('click', uploadFile);
 
 - Change the value of the `lambdaUrl` variable with your own.
 - We append all the pre-signed post fields to the form and then the file that we want to upload. We make a POST request to the S3 API, and if the response code is 204 (created), then you can view the file on your bucket.
-- It's valuable to mention that the S3 API doesn't care what's your payload in the form. You can only force the payload on the client side.
+- It's important to mention that the S3 API doesn't care what's your payload in the form. You can only force the payload on the client side.
 
 Clean up your AWS account by destroying the stack:
   
-  ```bash
-  cdk destroy --profile <yours>
-  ```
+```bash
+cdk destroy --profile <yours>
+```
