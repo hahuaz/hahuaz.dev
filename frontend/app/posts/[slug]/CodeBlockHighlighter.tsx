@@ -55,6 +55,9 @@ const CodeBlock = (props: any) => {
   } else if (className === "lang-bash") {
     language = "bash";
     extension = "";
+  } else if (className === "lang-liquid") {
+    language = "liquid";
+    extension = "liquid";
   }
 
   let fileIndicator;
