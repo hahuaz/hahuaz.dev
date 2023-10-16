@@ -98,7 +98,7 @@ const CodeBlock = (props: any) => {
 const CodeBlockHighlighter = ({ content }: any) => {
   return (
     <>
-      <article className="prose !max-w-full dark:prose-invert">
+      <article className="prose prose-invert !max-w-full dark:prose-invert">
         <Markdown
           options={{
             // override html tag rendering
